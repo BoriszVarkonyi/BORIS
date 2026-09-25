@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025/Debian) (preloaded format=pdflatex 2026.9.21)  25 SEP 2026 21:06
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025/Debian) (preloaded format=pdflatex 2026.9.21)  25 SEP 2026 21:25
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -809,15 +809,8 @@ Package babel Info: 'magyar' activates 'magyar' shorthands.
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
-
-
-Package rerunfilecheck Warning: File `VB_TDK_2026.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `VB_TDK_2026.out':
-(rerunfilecheck)             Before: 1395CEEC3D8EB525446D554E5EE7D15F;591
-(rerunfilecheck)             After:  D102198C5E33578F53DCB54CBF8FA75B;657.
+Package rerunfilecheck Info: File `VB_TDK_2026.out' has not changed.
+(rerunfilecheck)             Checksum: D102198C5E33578F53DCB54CBF8FA75B;657.
  ) 
 Here is how much of TeX's memory you used:
  41064 strings out of 468830
@@ -831,7 +824,7 @@ Here is how much of TeX's memory you used:
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb>
-Output written on VB_TDK_2026.pdf (4 pages, 58139 bytes).
+Output written on VB_TDK_2026.pdf (4 pages, 58156 bytes).
 PDF statistics:
  67 PDF objects out of 1000 (max. 8388607)
  52 compressed objects within 1 object stream
