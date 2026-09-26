@@ -1,23 +1,93 @@
-\documentclass[openany]{book}
+\documentclass[12pt,a4paper]{report}
 
+% ------------------------------------------------------------
+% KÓDOLÁS, NYELV, BETŰKÉP
+% ------------------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[magyar]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+
+% ------------------------------------------------------------
+% OLDALBEÁLLÍTÁS
+% ------------------------------------------------------------
 \usepackage[
-paper=a4paper,
+a4paper,
 left=25mm,
 right=25mm,
 top=25mm,
 bottom=25mm
 ]{geometry}
 
-\usepackage[magyar]{babel}
-\usepackage{circuitikz}
-\usepackage{float}
+% ------------------------------------------------------------
+% MATEMATIKA ÉS MÉRTÉKEGYSÉGEK
+% ------------------------------------------------------------
 \usepackage{amsmath}
-\usepackage{graphicx}
-\usepackage{blkarray}
-\usepackage[utf8]{inputenc}
-\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\setcounter{MaxMatrixCols}{20}
+\usepackage{bm}
+\usepackage{siunitx}
+\sisetup{output-decimal-marker={,}}
 
-\newcommand{\matout}[1]{\mbox{\scriptsize#1}}
+% ------------------------------------------------------------
+% TÁBLÁZATOK, LISTÁK
+% ------------------------------------------------------------
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{enumitem}
+
+% ------------------------------------------------------------
+% ÁBRÁK ÉS BLOKKVÁZLATOK
+% ------------------------------------------------------------
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,shapes.geometric}
+\usepackage{float}
+
+% ------------------------------------------------------------
+% KÓDRÉSZLETEK
+% ------------------------------------------------------------
+\usepackage{xcolor}
+\usepackage{listings}
+\lstdefinestyle{matlab}{
+	language=Matlab,
+	basicstyle=\ttfamily\small,
+	keywordstyle=\bfseries,
+	commentstyle=\itshape,
+	showstringspaces=false,
+	breaklines=true,
+	frame=single,
+	columns=fullflexible
+}
+
+% ------------------------------------------------------------
+% HIVATKOZÁSOK
+% ------------------------------------------------------------
+\usepackage[hidelinks]{hyperref}
+
+% ------------------------------------------------------------
+% SAJÁT PARANCSOK
+% ------------------------------------------------------------
+\newcommand{\mbody}{m_{\mathrm{b}}}
+\newcommand{\mwheel}{m_{\mathrm{w}}}
+\newcommand{\Jspin}{J_{\mathrm{a}}}
+\newcommand{\Jzw}{J_{z,\mathrm{w}}}
+\newcommand{\tauL}{\tau_{\mathrm{L}}}
+\newcommand{\tauR}{\tau_{\mathrm{R}}}
+\newcommand{\tauc}{\tau_{\mathrm{c}}}
+\newcommand{\taud}{\tau_{\mathrm{d}}}
+\newcommand{\phiL}{\varphi_{\mathrm{L}}}
+\newcommand{\phiR}{\varphi_{\mathrm{R}}}
+\newcommand{\omegaL}{\omega_{\mathrm{L}}}
+\newcommand{\omegaR}{\omega_{\mathrm{R}}}
+\newcommand{\alphL}{\alpha_{\mathrm{L}}}
+\newcommand{\alphR}{\alpha_{\mathrm{R}}}
+\newcommand{\thetad}{\dot{\theta}}
+\newcommand{\thetadd}{\ddot{\theta}}
+\newcommand{\psid}{\dot{\psi}}
+\newcommand{\psidd}{\ddot{\psi}}
 
 \begin{document}
 	
@@ -49,7 +119,117 @@ bottom=25mm
 	
 	\section{A vizsgált rendszer mechanikai modellje}
 
+	A fejezet célja bemutatni a rendszer mechanikai modelljét.
 	
+	\subsubsection{Koordinátarendszer és előjel-konvenció}
+	
+	A világ koordinátarendszere:
+	
+	\begin{align*}
+		X &: \text{előre},\\
+		Y &: \text{balra},\\
+		Z &: \text{felfelé}.
+	\end{align*}
+	
+	
+	A robot helyzetét és orientációját az alábbi mennyiségekkel írjuk le:
+	
+	\begin{itemize}
+		\item $x$: a keréktengely középpontjának $X$ koordinátája;
+		\item $y$: a keréktengely középpontjának $Y$ koordinátája;
+		\item $\psi$: a robot irányszöge a függőleges tengely körül;
+		\item $\theta$: a főtest hosszirányú dőlésszöge;
+		\item $\phiL$: a bal kerék talajhoz viszonyított abszolút gördülési szöge;
+		\item $\phiR$: a jobb kerék talajhoz viszonyított abszolút gördülési szöge.
+	\end{itemize}
+	
+	Előjel-konvenció:
+	
+	\begin{itemize}[leftmargin=2em]
+		\item $\theta>0$: a főtest teteje előrefelé dől;
+		\item $\psi>0$: felülről nézve a robot balra fordul, vagyis pozitív $Z$ tengely körüli elfordulás történik.
+	\end{itemize}
+	
+	A teljes konfigurációs vektor:
+	
+	\begin{equation}
+		q_{teljes} = \begin{bmatrix}
+			x & y & \psi & \theta & \phiL & \phiR
+		\end{bmatrix}^{\!T}.
+	\end{equation}
+	
+	\newpage
+	
+	\subsubsection{A modell fizikai paraméterei}
+	
+	\renewcommand{\arraystretch}{1.4}
+	
+	\begin{longtable}{>{\centering\arraybackslash}p{2.5cm} p{8cm} p{2.5cm}}
+		\toprule
+		\textbf{Jel} & \textbf{Jelentés} & \textbf{Egység} \\
+		\midrule
+		\endfirsthead
+		\toprule
+		\textbf{Jel} & \textbf{Jelentés} & \textbf{Egység} \\
+		\midrule
+		\endhead
+		$\mbody$ & a főtest tömege & \si{kg} \\ \hline
+		$\mwheel$ & egy kerék tömege & \si{kg} \\ \hline
+		$r$ & keréksugár & \si{m} \\ \hline
+		$b$ & nyomtáv, vagyis a két kerék érintkezési síkja közötti távolság & \si{m} \\ \hline
+		$l$ & a keréktengely és a főtest tömegközéppontja közötti távolság & \si{m} \\ \hline
+		$I_x$ & a főtest tehetetlenségi nyomatéka a test $x$ tengelye körül & \si{kg.m^2} \\ \hline
+		$I_y$ & a főtest tehetetlenségi nyomatéka a test $y$ tengelye körül & \si{kg.m^2} \\ \hline
+		$I_z$ & a főtest tehetetlenségi nyomatéka a test $z$ tengelye körül & \si{kg.m^2} \\ \hline
+		$\Jspin$ & egy kerék tengelyirányú forgási tehetetlensége & \si{kg.m^2} \\ \hline
+		$\Jzw$ & egy kerék elfordulási mozgáshoz tartozó tehetetlensége & \si{kg.m^2} \\ \hline
+		$g$ & gravitációs gyorsulás & \si{m.s^{-2}} \\ \hline
+		$\tauL$ & bal kerék kerékoldali hajtónyomatéka & \si{N.m} \\ \hline
+		$\tauR$ & jobb kerék kerékoldali hajtónyomatéka & \si{N.m} \\
+		\bottomrule
+	\end{longtable}
+	
+	\subsubsection{A redukált koordináta-rendszer}
+	
+	\[q_r = \begin{bmatrix} s \\ \theta \\ \psi \end{bmatrix}\]
+	
+	Így a sebességvektor:
+	
+	\[\dot{q_r} = \begin{bmatrix} \dot{s} \\ \dot{\theta } \\ \dot{\psi } \end{bmatrix}
+	= \begin{bmatrix} v \\ \dot{\theta } \\ \dot{\psi } \end{bmatrix}\]
+	
+	\begin{itemize}
+		\item $v$: a robot előremeneteli sebessége;
+		\item $\dot{\theta}$: a főtest dőlési szögsebessége;
+		\item $\dot{\psi}$: a robot fordulási szögsebessége 
+	\end{itemize}
+	
+	\newpage
+	
+	\subsubsection{A keréktengely-középpont síkbeli kinematikája}
+	
+	\[
+	e_f = \begin{bmatrix}
+		cos(\psi) \\ sin(\psi)
+	\end{bmatrix},
+	v_p =
+	\begin{bmatrix}
+		\dot{x} \\ \dot{y}
+	\end{bmatrix}
+	\]
+	
+	Oldalirányú csúszás nélkül a sebességvektor a robot előreirányába mutat, ezért:
+	
+	\[\text{v}_P = v e_f\]
+	
+	
+	Ebből következik, hogy:
+	
+	\[
+	\dot{x} = cos(\psi), \dot{y} = sin(\psi)
+	\]
+	
+	\subsubsection{A két kerék kinematikája}
 
 
 \end{document}
