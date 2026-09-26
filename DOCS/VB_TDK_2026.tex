@@ -211,7 +211,7 @@ bottom=25mm
 	\[
 	e_f = \begin{bmatrix}
 		cos(\psi) \\ sin(\psi)
-	\end{bmatrix},
+	\end{bmatrix}, \quad
 	v_p =
 	\begin{bmatrix}
 		\dot{x} \\ \dot{y}
@@ -226,10 +226,44 @@ bottom=25mm
 	Ebből következik, hogy:
 	
 	\[
-	\dot{x} = cos(\psi), \dot{y} = sin(\psi)
+	\dot{x} = cos(\psi), \quad \dot{y} = sin(\psi)
 	\]
 	
-	\subsubsection{A két kerék kinematikája}
+	\subsubsection{A két kerék gördülési és fordulási kinematikája}
+	
+	\[
+	v_L = v - \frac{b}{2} \dot{\psi}, \quad v_R = v - \frac{b}{2} \dot{\psi}
+	\]
+	
+	Csúszásmentes gördülés esetén \(v_i=r\omega_i=r\dot\phi_i\), ezért:
+	
+	\[
+	r\dot\phi_L=v-\frac{b}{2}\dot\psi,
+	\qquad
+	r\dot\phi_R=v+\frac{b}{2}\dot\psi.
+	\]
+	
+	A két egyenlet összeadásából és kivonásából:
+	\[
+	\boxed{v=\frac{r}{2}\left(\dot\phi_R+\dot\phi_L\right)},
+	\qquad
+	\boxed{\dot\psi=\frac{r}{b}\left(\dot\phi_R-\dot\phi_L\right)}.
+	\]
+	
+	\subsubsection{Az abszolút és relatív kerékszög kapcsolata}
+	A relatív encoder-szög a kerék és a robot főtestének szöghelyzete közötti különbség:
+	\[
+	\alpha_i=\phi_i-\theta.
+	\]
+	Idő szerint deriválva:
+	\[
+	\dot\alpha_i=\dot\phi_i-\dot\theta.
+	\]
+	Mivel \(\omega_i=\dot\phi_i\), ezért:
+	\[
+	\boxed{\dot\alpha_L=\omega_L-\dot\theta,\qquad
+		\dot\alpha_R=\omega_R-\dot\theta.}
+	\]
 
 
 \end{document}
