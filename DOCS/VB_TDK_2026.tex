@@ -191,12 +191,16 @@ bottom=25mm
 	
 	\subsubsection{A redukált koordináta-rendszer}
 	
-	\[q_r = \begin{bmatrix} s \\ \theta \\ \psi \end{bmatrix}\]
+	\begin{equation}q_r = \begin{bmatrix} s \\ \theta \\ \psi \end{bmatrix}
+	\end{equation}
 	
 	Így a sebességvektor:
 	
-	\[\dot{q_r} = \begin{bmatrix} \dot{s} \\ \dot{\theta } \\ \dot{\psi } \end{bmatrix}
-	= \begin{bmatrix} v \\ \dot{\theta } \\ \dot{\psi } \end{bmatrix}\]
+	\begin{equation}
+		\dot{q_r} = \begin{bmatrix} \dot{s} \\ \dot{\theta } \\ \dot{\psi } \end{bmatrix}
+		= \begin{bmatrix} v \\ \dot{\theta } \\ \dot{\psi } \end{bmatrix}
+	\end{equation}
+	
 	
 	\begin{itemize}
 		\item $v$: a robot előremeneteli sebessége;
@@ -208,62 +212,71 @@ bottom=25mm
 	
 	\subsubsection{A keréktengely-középpont síkbeli kinematikája}
 	
-	\[
-	e_f = \begin{bmatrix}
-		cos(\psi) \\ sin(\psi)
-	\end{bmatrix}, \quad
-	v_p =
-	\begin{bmatrix}
-		\dot{x} \\ \dot{y}
-	\end{bmatrix}
-	\]
+	\begin{equation}
+		e_f = \begin{bmatrix}
+			cos(\psi) \\ sin(\psi)
+		\end{bmatrix}, \quad
+		v_p =
+		\begin{bmatrix}
+			\dot{x} \\ \dot{y}
+		\end{bmatrix}
+	\end{equation}
+	
+	
 	
 	Oldalirányú csúszás nélkül a sebességvektor a robot előreirányába mutat, ezért:
 	
-	\[\text{v}_P = v e_f\]
+	\begin{equation}
+		\text{v}_P = v e_f
+	\end{equation}
 	
 	
 	Ebből következik, hogy:
 	
-	\[
+	\begin{equation}
 	\dot{x} = v \cdot cos(\psi), \quad \dot{y} = v \cdot sin(\psi)
-	\]
+	\end{equation}
 	
 	\subsubsection{A két kerék gördülési és fordulási kinematikája}
+
 	
-	\[
-	v_L = v - \frac{b}{2} \dot{\psi}, \quad v_R = v - \frac{b}{2} \dot{\psi}
-	\]
+	\begin{equation}
+		v_L = v - \frac{b}{2} \dot{\psi}, \quad v_R = v - \frac{b}{2} \dot{\psi}
+	\end{equation}
 	
 	Csúszásmentes gördülés esetén \(v_i=r\omega_i=r\dot\phi_i\), ezért:
 	
-	\[
-	r\dot\phi_L=v-\frac{b}{2}\dot\psi,
-	\qquad
-	r\dot\phi_R=v+\frac{b}{2}\dot\psi.
-	\]
+	\begin{equation}
+		r\dot\phi_L=v-\frac{b}{2}\dot\psi,
+		\qquad
+		r\dot\phi_R=v+\frac{b}{2}\dot\psi
+	\end{equation}
+	
 	
 	A két egyenlet összeadásából és kivonásából:
-	\[
-	\boxed{v=\frac{r}{2}\left(\dot\phi_R+\dot\phi_L\right)},
-	\qquad
-	\boxed{\dot\psi=\frac{r}{b}\left(\dot\phi_R-\dot\phi_L\right)}.
-	\]
+	
+	\begin{equation}
+		\boxed{v=\frac{r}{2}\left(\dot\phi_R+\dot\phi_L\right)},
+		\qquad
+		\boxed{\dot\psi=\frac{r}{b}\left(\dot\phi_R-\dot\phi_L\right)}.
+	\end{equation}
 	
 	\subsubsection{Az abszolút és relatív kerékszög kapcsolata}
 	A relatív encoder-szög a kerék és a robot főtestének szöghelyzete közötti különbség:
-	\[
+	\begin{equation}
 	\alpha_i=\phi_i-\theta.
-	\]
+	\end{equation}
 	Idő szerint deriválva:
-	\[
-	\dot\alpha_i=\dot\phi_i-\dot\theta.
-	\]
+	
+	\begin{equation}
+	\dot\alpha_i=\dot\phi_i-\dot\theta.	
+	\end{equation}
 	Mivel \(\omega_i=\dot\phi_i\), ezért:
-	\[
-	\boxed{\dot\alpha_L=\omega_L-\dot\theta,\qquad
-		\dot\alpha_R=\omega_R-\dot\theta.}
-	\]
+	
+	\begin{equation}
+		\boxed{\dot\alpha_L=\omega_L-\dot\theta,\qquad
+			\dot\alpha_R=\omega_R-\dot\theta.}
+	\end{equation}
 
 
 \end{document}
