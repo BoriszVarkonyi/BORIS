@@ -277,6 +277,278 @@ bottom=25mm
 		\boxed{\dot\alpha_L=\omega_L-\dot\theta,\qquad
 			\dot\alpha_R=\omega_R-\dot\theta.}
 	\end{equation}
-
+	
+	\subsubsection{A főtest középpontjának helye}
+	
+	A keréktengely középpontja:
+	\begin{equation}
+	\mathbf p_P=
+	\begin{bmatrix}
+		x\\y\\r
+	\end{bmatrix}
+	\end{equation}
+	A tengely és a tömegközéppont közötti \(l\) hosszúságú vektor vízszintes vetülete \(l\sin\theta\), függőleges vetülete \(l\cos\theta\), ezért:
+	\begin{equation}
+	\mathbf r_{PG}
+	=
+	l
+	\begin{bmatrix}
+		\sin\theta\cos\psi\\
+		\sin\theta\sin\psi\\
+		\cos\theta
+	\end{bmatrix}
+	\end{equation}
+	Így:
+	\begin{equation}
+	\boxed{
+		\mathbf p_G
+		=
+		\mathbf p_P+\mathbf r_{PG}
+		=
+		\begin{bmatrix}
+			x+l\sin\theta\cos\psi\\
+			y+l\sin\theta\sin\psi\\
+			r+l\cos\theta
+		\end{bmatrix}
+	}
+	\end{equation}
+	
+	\subsubsection{A főtest tömegközéppontjának sebessége
+		}
+		
+	Az előző helyvektor idő szerinti deriváltja, felhasználva \(\dot x=v\cos\psi\) és \(\dot y=v\sin\psi\):
+	\begin{equation}
+	\dot{\mathbf p}_G=
+	\begin{bmatrix}
+		(v+l\cos\theta\,\dot\theta)\cos\psi-l\sin\theta\,\dot\psi\sin\psi\\
+		(v+l\cos\theta\,\dot\theta)\sin\psi+l\sin\theta\,\dot\psi\cos\psi\\
+		-l\sin\theta\,\dot\theta
+	\end{bmatrix}.
+	\end{equation}
+	A sebesség nagyságának négyzete:
+	\begin{equation}
+	\|\mathbf v_G\|^2
+	=
+	\dot x_G^2+\dot y_G^2+\dot z_G^2.
+	\end{equation}
+	Egyszerűsítés után:
+	\begin{equation}
+	\boxed{
+		\|\mathbf v_G\|^2
+		=
+		v^2+2lv\cos\theta\,\dot\theta
+		+l^2\dot\theta^2
+		+l^2\sin^2\theta\,\dot\psi^2.
+	}
+	\end{equation}
+	
+	\subsubsection{A hajtónyomatékok általánosított erői}
+	A két kerék hajtóereje \(F_i=\tau_i/r\), ezért az előremeneti általánosított erő:
+	\begin{equation}
+		Q_v=\frac{\tau_L+\tau_R}{r}
+		=\frac{2\tau_c}{r}.
+	\end{equation}
+	A főtestre a kerékhajtással ellentétes reakciónyomaték hat, míg a két kerékerő különbsége \(b/2\) erőkarral elfordító nyomatékot hoz létre:
+	
+	\begin{equation}
+	Q_\theta=-(\tau_L+\tau_R)=-2\tau_c,
+	\qquad
+	Q_\psi=\frac{b}{2r}(\tau_R-\tau_L)=\frac br\tau_d.
+	\end{equation}
+	Így:
+	\begin{equation}
+		\boxed{\begin{gathered}
+				\mathbf Q=
+				\begin{bmatrix}
+					Q_v\\Q_\theta\\Q_\psi
+				\end{bmatrix}
+				=
+				\begin{bmatrix}
+					2/r&0\\
+					-2&0\\
+					0&b/r
+				\end{bmatrix}
+				\begin{bmatrix}
+					\tau_c\\
+					\tau_d
+				\end{bmatrix}
+		\end{gathered}}
+	\end{equation}
+	
+	\subsubsection{A rendszer teljes mozgási energiája}
+	A főtest haladó és forgási energiája:
+	\begin{equation}
+	T_{b,t}
+	=
+	\frac12m_b
+	\left(
+	v^2+2lv\cos\theta\,\dot\theta+l^2\dot\theta^2
+	+l^2\sin^2\theta\,\dot\psi^2
+	\right),
+	\end{equation}
+	\begin{equation}
+	T_{b,r}
+	=
+	\frac12I_y\dot\theta^2
+	+
+	\frac12
+	\left(I_x\sin^2\theta+I_z\cos^2\theta\right)
+	\dot\psi^2.
+	\end{equation}
+	A két kerék haladó, saját tengely körüli és elfordulási energiája:
+	\begin{equation}
+	T_{w,t}
+	=
+	m_wv^2+\frac14m_wb^2\dot\psi^2,
+	\end{equation}
+	\begin{equation}
+	T_{w,a}
+	=
+	\frac{J_a}{r^2}v^2
+	+
+	\frac{J_ab^2}{4r^2}\dot\psi^2,
+	\qquad
+	T_{w,z}
+	=
+	J_{z,w}\dot\psi^2.
+	\end{equation}
+	Így a teljes mozgási energia:
+	\begin{equation}
+	\boxed{
+		T=T_{b,t}+T_{b,r}+T_{w,t}+T_{w,a}+T_{w,z}.
+	}
+	\end{equation}
+	\subsubsection{Összevont tehetetlenségi együtthatók}
+	A teljes kinetikus energiában a \(v^2\), \(\dot\theta^2\) és \(\dot\psi^2\) tagok együtthatóit külön-külön összegyűjtjük:
+	\begin{equation}
+	\boxed{
+		A=m_b+2m_w+\frac{2J_a}{r^2},
+		\qquad
+		C=I_y+m_bl^2
+	}
+	\end{equation}
+	\begin{equation}
+	\boxed{
+		D(\theta)=I_x\sin^2\theta+I_z\cos^2\theta+m_bl^2\sin^2\theta
+		+\frac{m_wb^2}{2}+\frac{J_ab^2}{2r^2}+2J_{z,w}.
+	}
+	\end{equation}
+	Mivel \(D\) függ \(\theta\)-tól:
+	\begin{equation}
+	\boxed{
+		D'(\theta)=2\sin\theta\cos\theta\left(I_x-I_z+m_bl^2\right).
+	}
+	\end{equation}
+	\subsubsection{A teljes kinetikus energia redukált alakja}
+	Az összes korábban meghatározott kinetikusenergia-tagot összeadva és az \(A\), \(C\), \(D(\theta)\) mennyiségeket felhasználva:
+	\begin{equation}
+	T=T_{b,t}+T_{b,r}+T_{w,t}+T_{w,a}+T_{w,z}.
+	\end{equation}
+	Az azonos sebességtagok összevonása után:
+	\begin{equation}
+	\boxed{
+		T=
+		\frac12Av^2
+		+m_bl\cos\theta\,v\dot\theta
+		+\frac12C\dot\theta^2
+		+\frac12D(\theta)\dot\psi^2.
+	}
+	\end{equation}
+	A vegyes \(v\dot\theta\) tag az előremeneti és dőlési mozgás közötti csatolást írja le.
+	
+	
+	\subsubsection{Potenciális energia}
+	A főtest tömegközéppontjának keréktengelyhez viszonyított magassága:
+	\begin{equation}
+	h=l\cos\theta.
+	\end{equation}
+	A gravitációs potenciális energia:
+	\begin{equation}
+	V=m_bgh.
+	\end{equation}
+	Ezért:
+	\begin{equation}
+	\boxed{
+		V=m_bgl\cos\theta.
+	}
+	\end{equation}
+	
+	\subsubsection{A Lagrange-függvény}
+	A Lagrange-függvény definíció szerint a kinetikus és potenciális energia különbsége:
+	\begin{equation}
+	L=T-V.
+	\end{equation}
+	A korábban kapott energiákat behelyettesítve:
+	\begin{equation}
+	\boxed{
+		L=
+		\frac12Av^2
+		+m_bl\cos\theta\,v\dot\theta
+		+\frac12C\dot\theta^2
+		+\frac12D(\theta)\dot\psi^2
+		-m_bgl\cos\theta.
+	}
+	\end{equation}
+	A redukált rendszer független sebességváltozói:
+	\begin{equation}
+	\boxed{v,\qquad \dot\theta,\qquad \dot\psi.}
+	\end{equation}
+	
+	\subsubsection{A nemlineáris mozgásegyenletek}
+	A Lagrange–d'Alembert-egyenleteket a három redukált mozgásirányra alkalmazzuk, a korábban meghatározott \(Q_v\), \(Q_\theta\), \(Q_\psi\) általánosított erőkkel.
+	\begin{equation}
+	\boxed{
+		A\dot v+m_bl\cos\theta\,\ddot\theta
+		-m_bl\sin\theta\,\dot\theta^2
+		=
+		\frac{2\tau_c}{r}
+	}
+	\end{equation}
+	\begin{equation}
+	\boxed{
+		m_bl\cos\theta\,\dot v+C\ddot\theta
+		-\frac12D'(\theta)\dot\psi^2
+		-m_bgl\sin\theta
+		=
+		-2\tau_c
+	}
+	\end{equation}
+	\begin{equation}
+	\boxed{
+		D(\theta)\ddot\psi+D'(\theta)\dot\theta\dot\psi
+		=
+		\frac br\tau_d.
+	}
+	\end{equation}
+	
+	\subsubsection{Mátrixos alak}
+	A három mozgásegyenlet gyorsulási, nemlineáris és bemeneti tagjait külön csoportosítva:
+	\begin{equation}
+	\boxed{
+		M(q_r)\ddot q_r+h(q_r,\dot q_r)=Bu.
+	}
+	\end{equation}
+	ahol
+	\begin{equation}
+	M=
+	\begin{bmatrix}
+		A&m_bl\cos\theta&0\\
+		m_bl\cos\theta&C&0\\
+		0&0&D(\theta)
+	\end{bmatrix},
+	\qquad
+	B=
+	\begin{bmatrix}
+		2/r&0\\
+		-2&0\\
+		0&b/r
+	\end{bmatrix}.
+	\end{equation}
+	Így a gyorsulások numerikusan:
+	\begin{equation}
+	\boxed{
+		\ddot q_r=M\backslash(Bu-h)
+	}
+	\end{equation}
 
 \end{document}

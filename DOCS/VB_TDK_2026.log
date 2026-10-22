@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025/Debian) (preloaded format=pdflatex 2026.9.21)  26 SEP 2026 18:12
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025/Debian) (preloaded format=pdflatex 2026.9.21)  22 OCT 2026 10:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1071,8 +1071,8 @@ File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 {/usr/share/texmf/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/share/texmf/fonts/enc/
 dvips/lm/lm-rm.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/share/
 texmf/fonts/enc/dvips/lm/lm-mathex.enc}] [4{/usr/share/texmf/fonts/enc/dvips/lm
-/lm-mathsy.enc}] [5]
-(./VB_TDK_2026.aux)
+/lm-mathsy.enc}] [5] [6] [7]
+[8] (./VB_TDK_2026.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
@@ -1081,23 +1081,23 @@ Package rerunfilecheck Info: File `VB_TDK_2026.out' has not changed.
 (rerunfilecheck)             Checksum: D102198C5E33578F53DCB54CBF8FA75B;657.
  ) 
 Here is how much of TeX's memory you used:
- 32303 strings out of 468830
- 633579 string characters out of 5450489
- 1098613 words of memory out of 5000000
- 60396 multiletter control sequences out of 15000+600000
- 712833 words of font info for 156 fonts, out of 8000000 for 9000
+ 32353 strings out of 468830
+ 634211 string characters out of 5450489
+ 1098807 words of memory out of 5000000
+ 60398 multiletter control sequences out of 15000+600000
+ 713015 words of font info for 158 fonts, out of 8000000 for 9000
  395 hyphenation exceptions out of 8191
- 102i,10n,107p,1008b,1080s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 102i,13n,107p,1008b,1080s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/ty
 pe1/public/lm/lmex10.pfb></usr/share/texmf/fonts/type1/public/lm/lmmi12.pfb></u
 sr/share/texmf/fonts/type1/public/lm/lmmi8.pfb></usr/share/texmf/fonts/type1/pu
 blic/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr17.pfb></usr/share
 /texmf/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf/fonts/type1/public/lm/l
 msy10.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy8.pfb>
-Output written on VB_TDK_2026.pdf (6 pages, 150374 bytes).
+Output written on VB_TDK_2026.pdf (9 pages, 167993 bytes).
 PDF statistics:
- 134 PDF objects out of 1000 (max. 8388607)
- 104 compressed objects within 2 object streams
- 29 named destinations out of 1000 (max. 500000)
+ 203 PDF objects out of 1000 (max. 8388607)
+ 169 compressed objects within 2 object streams
+ 73 named destinations out of 1000 (max. 500000)
  49197 words of extra memory for PDF output out of 51595 (max. 10000000)
 

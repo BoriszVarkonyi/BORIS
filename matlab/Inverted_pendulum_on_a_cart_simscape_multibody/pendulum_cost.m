@@ -343,7 +343,7 @@ function J = pendulum_cost(p, mdl)
         %% =================================================
         %  14. KOCSI NAGY KITÉRÉSÉNEK BÜNTETÉSE
         %
-        % 5 cm-en belül szeretnénk tartani.
+        % 5 cm-en belül szeretném tartani.
         %
         % Ez nem hard constraint, hanem extra büntetés.
         % ==================================================

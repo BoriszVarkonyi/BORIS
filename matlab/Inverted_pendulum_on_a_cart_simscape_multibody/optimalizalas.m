@@ -112,8 +112,6 @@ p0 = log([Kz0, Kv0]);
 %% =========================================================
 %  OPTIMALIZÁCIÓS IDŐHORIZONT
 %
-%  Fontos: ne legyen túl rövid.
-%  25 s alatt már látszik az oda-vissza mozgás.
 % ==========================================================
 
 optimizationStopTime = 8;
