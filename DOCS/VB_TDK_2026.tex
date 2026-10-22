@@ -9,6 +9,8 @@
 \usepackage{lmodern}
 \usepackage{microtype}
 
+\usepackage{float}
+
 % ------------------------------------------------------------
 % OLDALBEÁLLÍTÁS
 % ------------------------------------------------------------
@@ -550,5 +552,286 @@ bottom=25mm
 		\ddot q_r=M\backslash(Bu-h)
 	}
 	\end{equation}
+	
+	\section{Az analitikus modell numerikus implementációja és validációja}
+	\label{sec:analitikus_validacio}
+	
+	A levezetett nemlineáris mozgásegyenletek numerikus vizsgálatához a modellt
+	MATLAB/Simulink környezetben implementáltam. A modell célja egyrészt a
+	matematikai levezetés helyességének ellenőrzése, másrészt egy olyan gyorsan
+	szimulálható növénymodell létrehozása volt, amely később a klasszikus és a
+	megerősítéses tanuláson alapuló szabályozók fejlesztésének közös alapját képezi.
+	
+	A redukált rendszer mátrixos alakja:
+	
+	\begin{equation}
+		\mathbf{M}(\mathbf{q}_r)\ddot{\mathbf{q}}_r
+		+\mathbf{h}(\mathbf{q}_r,\dot{\mathbf{q}}_r)
+		=
+		\mathbf{B}\mathbf{u}
+		+\mathbf{Q}_{\mathrm{vesz}},
+	\end{equation}
+	
+	ahol
+	
+	\begin{equation}
+		\mathbf{q}_r =
+		\begin{bmatrix}
+			s & \theta & \psi
+		\end{bmatrix}^{T},
+		\qquad
+		\dot{\mathbf{q}}_r =
+		\begin{bmatrix}
+			v & \dot{\theta} & \dot{\psi}
+		\end{bmatrix}^{T},
+	\end{equation}
+	
+	és a vezérlőbemenet:
+	
+	\begin{equation}
+		\mathbf{u} =
+		\begin{bmatrix}
+			\tau_c & \tau_d
+		\end{bmatrix}^{T}.
+	\end{equation}
+	
+	A numerikus számítás során az explicit mátrixinverz képzése helyett
+	lineáris egyenletrendszer megoldása történik:
+	
+	\begin{equation}
+		\ddot{\mathbf{q}}_r
+		=
+		\mathbf{M}
+		\backslash
+		\left(
+		\mathbf{B}\mathbf{u}
+		+\mathbf{Q}_{\mathrm{vesz}}
+		-\mathbf{h}
+		\right).
+	\end{equation}
+	
+	Ez numerikusan kedvezőbb, mint a
+	$\mathbf{M}^{-1}$ explicit meghatározása.
+	
+	\subsection{Simulink implementáció}
+	
+	A Simulink modellben egy MATLAB Function blokk számítja a pillanatnyi
+	gyorsulásvektort a rendszer aktuális állapota, a motorok nyomatékbemenetei
+	és a fizikai paraméterek alapján. A számított gyorsulásokat két egymás után
+	kapcsolt integrátor alakítja sebesség-, majd helyzetállapotokká:
+	
+	\begin{equation}
+		\ddot{\mathbf{q}}_r
+		\xrightarrow{\int}
+		\dot{\mathbf{q}}_r
+		\xrightarrow{\int}
+		\mathbf{q}_r.
+	\end{equation}
+	
+	Az integrátorok kimenetei visszacsatolásra kerülnek a nemlineáris
+	dinamikai modellhez, így minden időlépésben az aktuális állapot alapján
+	történik a gyorsulások újraszámítása.
+	
+	\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=0.95\textwidth]
+		{figures/analitikus_modell.png}
+		\caption{A nemlineáris analitikus robotmodell Simulink implementációja.}
+		\label{fig:analitikus_simulink}
+	\end{figure}
+	
+	\subsection{Disszipatív veszteségek modellezése}
+	
+	Az ideális mechanikai modell csúszásmentes gördülést feltételez, azonban
+	önmagában nem tartalmaz energiaveszteséget. Emiatt vezérlés nélküli
+	szimulációban a rendszer mechanikai energiája megmarad, és a főtest a
+	függőleges instabil helyzetből eldőlve korlátlan ideig tovább lenghet,
+	illetve többször átfordulhat.
+	
+	A valós rendszer viselkedésének jobb közelítéséhez a modellben több
+	disszipatív hatást is figyelembe vettem:
+	
+	\begin{itemize}
+		\item motor- és csapágysúrlódás,
+		\item kerék--talaj gördülési ellenállás,
+		\item kis mértékű sebességfüggő légellenállás.
+	\end{itemize}
+	
+	A motor és a főtest közötti relatív kerék-szögsebességek:
+	
+	\begin{equation}
+		\dot{\alpha}_L
+		=
+		\frac{v-\frac{b}{2}\dot{\psi}}{r}
+		-\dot{\theta},
+		\qquad
+		\dot{\alpha}_R
+		=
+		\frac{v+\frac{b}{2}\dot{\psi}}{r}
+		-\dot{\theta}.
+	\end{equation}
+	
+	A motor- és csapágysúrlódást viszkózus és simított Coulomb-tag
+	összegeként modelleztem:
+	
+	\begin{equation}
+		\tau_{f,i}
+		=
+		c_m \dot{\alpha}_i
+		+
+		\tau_{C,m}
+		\tanh
+		\left(
+		\frac{\dot{\alpha}_i}{\omega_\varepsilon}
+		\right),
+		\qquad i\in\{L,R\}.
+	\end{equation}
+	
+	A hiperbolikus tangens alkalmazása a
+	$\operatorname{sign}(\cdot)$ függvény numerikusan simított
+	közelítését adja, így nulla sebesség környezetében elkerülhető a
+	diszkontinuitás.
+	
+	A két kerék hosszirányú sebessége:
+	
+	\begin{equation}
+		v_L=v-\frac{b}{2}\dot{\psi},
+		\qquad
+		v_R=v+\frac{b}{2}\dot{\psi}.
+	\end{equation}
+	
+	A gördülési ellenállás kerekenként:
+	
+	\begin{equation}
+		F_{rr,i}
+		=
+		c_{rr}v_i
+		+
+		F_{C,rr}
+		\tanh
+		\left(
+		\frac{v_i}{v_\varepsilon}
+		\right).
+	\end{equation}
+	
+	A gördülési ellenállás által létrehozott általánosított erővektor:
+	
+	\begin{equation}
+		\mathbf{Q}_{rr}
+		=
+		\begin{bmatrix}
+			-(F_{rr,L}+F_{rr,R})\\
+			0\\
+			-\frac{b}{2}(F_{rr,R}-F_{rr,L})
+		\end{bmatrix}.
+	\end{equation}
+	
+	A légellenállást egyszerű másodfokú közelítéssel vettem figyelembe:
+	
+	\begin{equation}
+		F_{\mathrm{air}}
+		=
+		c_{\mathrm{air}}v|v|.
+	\end{equation}
+	
+	A teljes veszteségi általánosított erő:
+	
+	\begin{equation}
+		\mathbf{Q}_{\mathrm{vesz}}
+		=
+		\mathbf{Q}_{\mathrm{motor}}
+		+
+		\mathbf{Q}_{rr}
+		+
+		\mathbf{Q}_{\mathrm{air}}.
+	\end{equation}
+	
+	A használt veszteségi paraméterek jelenleg becsült modellparaméterek;
+	pontos azonosításuk a fizikai prototípus mérési eredményei alapján
+	későbbi feladat.
+	
+	\subsection{Az analitikus modell validációja}
+	
+	A numerikus implementáció alapvető fizikai helyességének ellenőrzésére
+	több nyílt hurkú vizsgálatot végeztem. A vizsgálatok során nem alkalmaztam
+	aktív szabályozást, így a kapott válasz kizárólag a mechanikai modell
+	dinamikájából származott.
+	
+	\begin{table}[htbp]
+		\centering
+		\caption{Az analitikus modell nyílt hurkú ellenőrző vizsgálatai.}
+		\label{tab:modell_validacio}
+		\begin{tabular}{p{0.25\textwidth}p{0.30\textwidth}p{0.32\textwidth}}
+			\hline
+			\textbf{Vizsgálat}
+			& \textbf{Kezdeti feltétel / bemenet}
+			& \textbf{Tapasztalt viselkedés} \\
+			\hline
+			
+			Instabil egyensúly
+			&
+			$\theta_0=2^\circ$,
+			$\tau_c=\tau_d=0$
+			&
+			A dőlésszög abszolút értéke növekedett, a függőleges helyzet instabilnak bizonyult.
+			\\[2mm]
+			
+			Közös hajtónyomaték
+			&
+			$\tau_c>0$,
+			$\tau_d=0$
+			&
+			Hosszirányú mozgás és dőlés alakult ki, miközben $\psi=0$ maradt.
+			\\[2mm]
+			
+			Különbségi hajtónyomaték
+			&
+			$\tau_c=0$,
+			$\tau_d>0$
+			&
+			A robot irányszöge változott, miközben ideális kezdeti állapot esetén $s$ és $\theta$ változatlan maradt.
+			\\[2mm]
+			
+			Csillapított szabadesés
+			&
+			$\theta_0=5^\circ$,
+			$\tau_c=\tau_d=0$
+			&
+			A főtest csillapodó lengések után a lefelé mutató, stabil egyensúlyi helyzethez közelített.
+			\\
+			\hline
+		\end{tabular}
+	\end{table}
+	
+
+	\subsubsection{Csillapított szabadesés}
+	
+	A veszteségi modell további ellenőrzéséhez a rendszert
+	$\theta_0=5^\circ$ kezdeti dőlésből, nulla motorbemenet mellett
+	szimuláltam. A kapott válasz a \ref{fig:csillapitott_szabadeses}.
+	ábrán látható.
+	
+	A főtest először eldől, majd a lefelé mutató
+	$\theta=180^\circ$ stabil egyensúlyi helyzet körül leng.
+	A motor-, csapágy- és gördülési veszteségek következtében a lengés
+	amplitúdója fokozatosan csökken.
+	
+	A hosszirányú elmozdulás szintén oszcilláló viselkedést mutat,
+	ami a dőlési és hosszirányú dinamika közötti csatolás következménye.
+	A különbségi hajtónyomaték hiánya miatt az irányszög a teljes
+	vizsgálat alatt változatlan marad.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.95\textwidth]
+		{figures/Validacio_surlodas_eldoles.png}
+		\caption{
+			Az analitikus modell válasza
+			$\theta_0=5^\circ$ kezdeti dőlés és nulla motorbemenet esetén,
+			a disszipatív veszteségek figyelembevételével.
+			A rendszer a $\theta=180^\circ$ stabil egyensúlyi helyzethez tart.
+		}
+		\label{fig:csillapitott_szabadeses}
+	\end{figure}
 
 \end{document}

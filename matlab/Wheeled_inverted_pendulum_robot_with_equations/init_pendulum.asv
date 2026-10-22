@@ -1,0 +1,80 @@
+%% TDK - ideiglenes numerikus paraméterek
+% CSAK az analitikus modell első ellenőrzéséhez!
+
+mb  = 3.0;        % főtest tömege [kg]
+mw  = 0.25;       % egy kerék tömege [kg]
+
+r   = 0.08;       % keréksugár [m]
+b   = 0.30;       % nyomtáv [m]
+l   = 0.18;       % tengely - főtest CoM távolság [m]
+
+Ix  = 0.0400;     % főtest tehetetlenség [kg*m^2]
+Iy  = 0.0292;
+Iz  = 0.0180;
+
+Ja  = 8.0e-4;     % kerék saját tengely körüli tehetetlensége
+Jzw = 4.33e-4;    % kerék yaw tehetetlensége
+
+g   = 9.81;
+
+tauMax = 2;
+
+
+
+%% Súrlódási paraméterek
+% KEZDETI, becsült tesztértékek
+
+cMotor   = 0.003;    % N*m*s/rad
+tauMotor = 0.01;     % N*m
+
+cRoll    = 0.15;     % N*s/m
+FRoll    = 0.08;     % N
+
+cAir     = 0.02;     % N/(m/s)^2
+
+vEps     = 0.02;     % m/s
+omegaEps = 0.10;     % rad/s
+
+%% Paramétervektor a nonlinearDynamics függvénynek
+
+p = [
+    mb;
+    mw;
+    r;
+    b;
+    l;
+    Ix;
+    Iy;
+    Iz;
+    Ja;
+    Jzw;
+    g;
+    cMotor;
+    tauMotor;
+    cRoll;
+    FRoll;
+    cAir;
+    vEps;
+    omegaEps
+];
+
+%% Kezdeti állapot
+
+q0 = [
+    0;              % s
+    deg2rad(5);      % theta = +5 fok
+    0               % psi
+    ];
+
+qd0 = [
+    0;              % v
+    0;              % thetaDot
+    0               % psiDot
+    ];
+
+%% Motorbemenet
+
+u0 = [
+    0;              % tauCommon
+    0               % tauDifferential
+    ];
