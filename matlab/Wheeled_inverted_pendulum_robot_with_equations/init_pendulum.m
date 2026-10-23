@@ -32,7 +32,9 @@ Ki_vel = 0.3;     % Sebesség I
 
 %thetaRef = 0;   % Dőlésszög referencia
 %vRef = 0.2;     % Referecia sebesség
-posRef = 1;     % Pozíció referencia
+posRef = 0;     % Pozíció referencia
+
+vErrorDeadband = 0.01;    % [m/s]
 
 
 %% Szaturációk deklarálása
@@ -40,6 +42,12 @@ posRef = 1;     % Pozíció referencia
 tauMax = 2;             % Maximális motornyomaték
 thetaMax = deg2rad(8);  % Maximális dőlésszögreferencia a sebességszabályzóhoz
 vMax = 0.2;             % Maximális sebesség a pozíciószabályzáshoz
+
+%% Yaw paraméterek
+
+Kp_yaw = 0.02;              % yaw-rate P szabályzó
+psiDotRef = deg2rad(30);    % 30 deg/s
+tauDiffMax = 0.2;           % Nm
 
 %% Súrlódási paraméterek
 % KEZDETI, becsült tesztértékek
@@ -54,6 +62,14 @@ cAir     = 0.02;     % N/(m/s)^2
 
 vEps     = 0.02;     % m/s
 omegaEps = 0.10;     % rad/s
+
+%% Vezérlőparancsok inicializálása
+
+manualMode = 0;        % 0 = AUTO, 1 = MANUAL
+controllerMode = 0;    % 0 = PID, 1 = RL (egyelőre PID)
+
+vManual = 0.15;        % [m/s]
+yawManual = deg2rad(30);
 
 %% Paramétervektor a nonlinearDynamics függvénynek
 

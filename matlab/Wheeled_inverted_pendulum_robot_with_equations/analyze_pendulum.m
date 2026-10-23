@@ -233,3 +233,43 @@ fprintf('Max. |motor nyomaték|:      %.4f Nm\n', ...
     max(abs(tauCommon)));
 
 fprintf('====================================================\n');
+
+
+%% ============================================================
+% VILÁGKOORDINÁTA RENDSZERBELI PÁLYA PLOTOLÁSA
+% =============================================================
+
+xWorld = out.xWorldLog.Data;
+yWorld = out.yWorldLog.Data;
+
+figure('Name','Világkoordinátás pálya');
+
+plot(xWorld, yWorld, 'LineWidth', 1.8);
+hold on;
+
+plot(xWorld(1), yWorld(1), 'o', ...
+    'MarkerSize', 8, 'LineWidth', 2);
+
+plot(xWorld(end), yWorld(end), 'x', ...
+    'MarkerSize', 10, 'LineWidth', 2);
+
+axis equal;
+grid on;
+
+xlabel('x [m]');
+ylabel('y [m]');
+title('A robot világkoordinátás pályája');
+
+legend('Pálya','Start','Végpont','Location','best');
+
+psi = out.q.Data(:,3);
+
+L = 0.15;
+
+quiver( ...
+    xWorld(end), ...
+    yWorld(end), ...
+    L*cos(psi(end)), ...
+    L*sin(psi(end)), ...
+    0, ...
+    'LineWidth', 2);
