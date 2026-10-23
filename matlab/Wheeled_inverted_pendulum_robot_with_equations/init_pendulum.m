@@ -17,10 +17,29 @@ Jzw = 4.33e-4;    % kerék yaw tehetetlensége
 
 g   = 9.81;
 
-tauMax = 2;
+%% Szabályozási paraméterek
 
-Kp = 2;
-Kd = 0.2;
+Kp_theta = 2;     % Belső dőlésszög P
+Kd_theta = 0.2;   % Belső dőlésszög D
+
+Kp_pos = 0.05;    % Külső pozíció P
+Kd_pos = 0;       % MOST kapcsold ki
+
+Kp_vel = 0.25;    % Sebesség P
+Ki_vel = 0.3;     % Sebesség I
+
+%% Refereciaértékek deklarálása
+
+%thetaRef = 0;   % Dőlésszög referencia
+%vRef = 0.2;     % Referecia sebesség
+posRef = 1;     % Pozíció referencia
+
+
+%% Szaturációk deklarálása
+
+tauMax = 2;             % Maximális motornyomaték
+thetaMax = deg2rad(8);  % Maximális dőlésszögreferencia a sebességszabályzóhoz
+vMax = 0.2;             % Maximális sebesség a pozíciószabályzáshoz
 
 %% Súrlódási paraméterek
 % KEZDETI, becsült tesztértékek
@@ -63,7 +82,7 @@ p = [
 
 q0 = [
     0;              % s
-    deg2rad(5);      % theta = +5 fok
+    0;              % theta
     0               % psi
     ];
 
