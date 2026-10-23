@@ -71,6 +71,11 @@ controllerMode = 0;    % 0 = PID, 1 = RL (egyelőre PID)
 vManual = 0.15;        % [m/s]
 yawManual = deg2rad(30);
 
+%%RL válozók inicializálása
+
+vTrainCmd = 0;
+trainingMode = 1;
+
 %% Paramétervektor a nonlinearDynamics függvénynek
 
 p = [
