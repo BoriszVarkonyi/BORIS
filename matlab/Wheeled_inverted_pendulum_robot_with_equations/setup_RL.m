@@ -63,6 +63,9 @@ agent.SampleTime = Ts;
 % Jövőbeli rewardok fontossága.
 agent.AgentOptions.DiscountFactor = 0.995;
 
+% GPU használata a neurális hálók tanításához
+agent.UseGPUForLearning = true;
+
 %% 9. Environment ellenőrzése
 
 validateEnvironment(env);
@@ -120,17 +123,32 @@ maxSteps = round(episodeTime / Ts);
 
 %% Training beállítások
 
+pool = gcp('nocreate');
+
+if isempty(pool)
+    parpool(2);
+end
+
 trainOpts = rlTrainingOptions( ...
     MaxEpisodes = 300, ...
     MaxStepsPerEpisode = 500, ...
     ScoreAveragingWindowLength = 20, ...
     StopTrainingCriteria = "None", ...
     Verbose = true, ...
-    Plots = "training-progress");
+    Plots = "training-progress", ...
+    UseParallel = true);
+
+trainOpts.ParallelizationOptions.Mode = "async";
 
 %% Tréning indítása
 
+tic
+
 trainingStats = train(agent, env, trainOpts);
+
+elapsedTime = toc;
+
+fprintf("Training idő: %.1f s\n", elapsedTime);
 
 %% Eredmény mentése
 

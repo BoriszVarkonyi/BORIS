@@ -22,6 +22,8 @@ top=25mm,
 bottom=25mm
 ]{geometry}
 
+
+
 % ------------------------------------------------------------
 % MATEMATIKA ÉS MÉRTÉKEGYSÉGEK
 % ------------------------------------------------------------
@@ -65,8 +67,16 @@ bottom=25mm
 }
 
 % ------------------------------------------------------------
-% HIVATKOZÁSOK
+% HIVATKOZÁSOK ÉS IRODALOMJEGYZÉK
 % ------------------------------------------------------------
+\usepackage[
+backend=biber,
+style=numeric,
+sorting=none
+]{biblatex}
+
+\addbibresource{references.bib}
+
 \usepackage[hidelinks]{hyperref}
 
 % ------------------------------------------------------------
@@ -113,7 +123,312 @@ bottom=25mm
 	
 	\chapter{Bevezetés}
 	
+	Ebben a fejezetben bemutatom a dolgozatban tárgyalt problémát és annak relevanciáját.
+	
+	\section{Téma jelentősége}
+	
+	Napjainkban a mesterséges intelligencia és a tanulásalapú módszerek rohamos fejlődése új lehetőségeket biztosít a robotok szabályozástechnikai alkalmazásaiban. A megerősítéses tanulás (reinforcement learning) lehetőséget biztosít arra, hogy a klasszikus szabályozási módszerek mellett alternatív, tanulásalapú szabályozókat alkalmazzunk, illetve a két megközelítést akár hibrid módon kombináljuk.
+	\newline
+	\newline
+	Az általam választott kutatási témában egy klasszikus, kaszkádolt szabályozási struktúrát hasonlítok össze egy Soft Actor-Critic (SAC) algoritmuson alapuló megerősítéses tanulási szabályozóval.
+	\newline
+	\newline
+	A kutatásom során MATLAB / Simulink környezetben létrehoztam egy kétkerekű fordított inga felépítésű robot (Inverted Pendulum On Wheels) nemlineáris matematikai modelljét, majd szintén ebben a környezetben készítettem hozzá egy kaszkádolt PID szabályzót, és egy megerősítéses tanulás alapút. A két szabályzó összehasonlításához létrehoztam továbbá egy általánosított teljesítményvizsgáló és kiértékelő algoritmust (benchmarkot) mely a releváns, megfigyelni kívánt paramétereket összesíti, és MATLAB környezetben diagrammokat generál.
+	\newline
+	\newline
+	\section{Célkitűzés}
+	A projekt célja egy összehasonlító analízis elkészítése a bevezetőben említett két algoritmus közt. Ennek lépései a következők voltak:
+	\begin{itemize}
+		\item A kétkerekű fordított inga robot nemlineáris matematikai modelljének megalkotása;
+		\item Kaszkádolt PID vezérlő megtervezése és elkészítése.
+		\item A PID szabályzó paramétereinek ideális értékeinek megállapítása kézi hangolással.
+		\item A megfelelő környezet kialakítása a reinforcement learning szabályzóhoz.
+		\item A reward (jutalom) függvény megtervezése és implementálása.
+		\item Az ágens több iterációban való tanítása a jutalomfüggvény finomhangolásával.
+		\item A betanított ágens tesztelése és validálása
+		\item Összehasonlító benchmark tervezése és futtatása
+	\end{itemize}
+	
 	\chapter{Szakirodalom áttekintés}
+	Dolgozatom ezen fejezete szakirodalom feldolgozás segítségével tekinti át a jelenleg is alkalmazott szabályzókat, PID szabályzó hangolási módszereket, tanítási módszereket, algoritmusokat és a jutalomfüggvény tervezési metódusokat. Az áttekintés kitér továbbá a jelen projekt számára releváns benchmark tervezési módszerekre is.
+	
+	\section{Kétkerekű önkiegyensúlyozó robotok}
+	\subsection{A fordított inga szabályozási problémája}
+	Az alulaktuált mechanikai rendszereket (UMS) gyakran ideális tesztkörnyezetnek tekintik új szabályozási algoritmusok tervezéséhez és teszteléséhez, mivel nemlineáris és összetett dinamikai tulajdonságokkal rendelkeznek, valamint az általánosított koordinátáik száma meghaladja a rendelkezésre álló vezérlőbemenetek számát \cite{chan2013}.
+	\newline
+	\newline
+	A kerekes robotok a lábas robotokhoz képest általában egyszerűbb mechanikai felépítésűek, és működésük is energiahatékonyabb lehet. A kétkerekű önkiegyensúlyozó robotoknál a két kerék egy közös tengelyen helyezkedik el, miközben a robot tömegközéppontja a tengely fölött található. Emiatt a rendszer statikusan instabil, ezért az egyensúly megtartásához folyamatos aktív szabályozás szükséges \cite{chan2013}.
+	\newline
+	\newline
+	A kétkerekű kialakítás előnye, hogy a robot kis helyen is jól manőverezhető, és akár helyben is képes megfordulni. A kis alapterület miatt jól használható beltéri környezetben is. Az aktív egyensúlyozás miatt külső zavarásokra is képes reagálni, illetve lejtős felületen a test megdöntésével tudja megtartani az egyensúlyát \cite{chan2013}.
+	\newline
+	\newline
+	A szabályozást az is nehezíti, hogy a rendszer nyílt hurokban instabil, alulaktuált, és a dőlésszög valamint az előremeneti sebesség dinamikája egymással össze van kapcsolva. Emiatt például előreinduláskor a robotnak először előre kell döntenie a testét, és csak ezután tud stabilan előre gyorsulni \cite{chan2013}.
+	\subsection{Kétkerekű önkiegyensúlyozó robotok dinamikai modellezése}
+	A kétkerekű önkiegyensúlyozó robotok megfelelő szabályozásának egyik alapfeltétele a rendszer dinamikájának megfelelő matematikai leírása. A szakirodalomban több különböző modellezési módszer is elterjedt, ezek közül leggyakrabban a Newton-féle, a Lagrange-féle és a Kane-módszert alkalmazzák \cite{chan2013,kimkwon2015}.
+	\newline
+	\newline
+	A Newton-féle megközelítés során a robot egyes merev testjeire ható erőket és nyomatékokat külön-külön vizsgálják. Ez jól szemlélteti a rendszer fizikai működését, azonban egy többtest-rendszer esetén a kölcsönható erők miatt a levezetés gyorsan összetetté válhat. A Lagrange-módszer ezzel szemben a rendszer kinetikus és potenciális energiájából indul ki, ezért több szabadságfokú mechanikai rendszerek modellezésénél gyakran alkalmazott módszer \cite{kimkwon2015}.
+	\newline
+	\newline
+	A kétkerekű önkiegyensúlyozó robot teljes mozgása három fő komponensre bontható: előremeneti mozgásra, a robot testének dőlésére, valamint a függőleges tengely körüli elfordulásra. A szakirodalomban ezek rendre a hosszirányú mozgás, a pitch és a yaw szabadságfokoknak felelnek meg. Bár a robot geometriai leírásához ennél több koordináta is szükséges lehet, a gördülési és geometriai kényszerek figyelembevételével a rendszer három független szabadságfokra redukálható \cite{kimkwon2015}.
+	\newline
+	\newline
+	A modellezés során fontos feltétel a kerekek és a talaj közötti csúszásmentes gördülés feltétele is. Ez kapcsolatot teremt a két kerék forgási sebessége, a robot előremeneti sebessége és a yaw szögsebessége között. A részletesebb modellek ezért nemcsak a dőlési mozgást vizsgálják, hanem az előremeneti és fordulási dinamika közötti kapcsolatot is figyelembe veszik \cite{kimkwon2015}.
+	\newline
+	\newline
+	A modell részletessége mindig függ a vizsgálat céljától. Egyszerűbb szabályozási feladatokhoz elegendő lehet egy kétdimenziós modell, ahol csak az előremeneti mozgást és a dőlésszöget vizsgálják. Amennyiben azonban a robot teljes mozgását, így a fordulást is vizsgálni szeretnénk, szükséges a yaw dinamika bevonása is. A jelen dolgozatban ezért egy három szabadságfokú, nemlineáris modell került kialakításra.
+	
+	\subsection{A szakirodalomban alkalmazott szabályozási módszerek}
+	A kétkerekű önkiegyensúlyozó robotok szabályozására több különböző módszer is megtalálható a szakirodalomban. A leggyakrabban alkalmazott klasszikus megoldások közé tartozik a PID szabályozás és az állapot-visszacsatoláson alapuló LQR szabályozás. Ezek mellett több nemlineáris és intelligens szabályozási módszert is alkalmaznak, például sliding mode szabályozást, fuzzy logikát, neurális hálózatokat és megerősítéses tanulást \cite{chan2013,zhangnor2025}.
+	\newline
+	\newline
+	A PID szabályozás egyik előnye az egyszerű felépítés és az alacsony számítási igény. Kétkerekű önkiegyensúlyozó robotok esetén gyakran több egymásba ágyazott szabályozási kört alkalmaznak, ahol külön szabályozó felel például a dőlésszög, a sebesség vagy a pozíció követéséért \cite{zhangnor2025}. Az LQR szabályozás ezzel szemben a rendszer állapottér-modelljére épül, és az állapotváltozók valamint a beavatkozás súlyozása alapján határozza meg a szabályozó paramétereit.
+	\newline
+	\newline
+	An és Li egy kétkerekű önkiegyensúlyozó roboton PID és LQR szabályozást is vizsgáltak MATLAB környezetben. A vizsgálat során külön kezelték az egyensúlyozást és a robot fordulását, majd összehasonlították a két szabályozási módszer eredményeit \cite{anli2013}. Ez jól mutatja, hogy ugyanazon robot szabályozási feladatára több különböző klasszikus megoldás is alkalmazható.
+	\newline
+	\newline
+	A nemlineáris szabályozási módszerek közül a sliding mode szabályozást is több kutatásban alkalmazták. Yuan és munkatársai egy kétkerekű önkiegyensúlyozó robot nemlineáris modelljéhez terveztek sliding mode szabályozót, majd annak működését szimulációval vizsgálták \cite{yuan2016}.
+	\newline
+	\newline
+	Az utóbbi években a klasszikus szabályozási módszerek mellett egyre nagyobb szerepet kapnak a tanulásalapú megoldások is. Ide tartoznak a neurális hálózaton és megerősítéses tanuláson alapuló szabályozók, amelyek egyik előnye, hogy összetett és nemlineáris rendszereken is alkalmazhatók. Ezek számítási igénye azonban általában nagyobb, mint a klasszikus PID vagy LQR szabályozóké \cite{zhangnor2025}.
+	
+	\section{Klasszikus szabályozási módszerek}
+	\subsection{PID és PD szabályozás}
+	A PID szabályozó az egyik leggyakrabban alkalmazott klasszikus szabályozási módszer. Népszerűségének egyik oka az egyszerű felépítése, valamint az, hogy viszonylag kis számítási igény mellett sok különböző szabályozási feladatra alkalmazható \cite{ang2005,zhangnor2025}.
+	\newline
+	\newline
+	A PID szabályozó három tagból épül fel: arányos, integráló és deriváló tagból. A szabályozó általános alakja:
+	\begin{equation}
+		u(t)
+		=
+		K_p e(t)
+		+
+		K_i \int e(t)\,dt
+		+
+		K_d \frac{de(t)}{dt},
+	\end{equation}
+	ahol $e(t)$ a referenciaérték és a mért érték közötti hiba, $K_p$, $K_i$ és $K_d$ pedig a szabályozó hangolható paraméterei \cite{ang2005}.
+	\newline
+	\newline
+	Az arányos tag közvetlenül a pillanatnyi hibára reagál. Nagyobb hiba esetén nagyobb beavatkozást eredményez. Az integráló tag a hiba időbeli összegét veszi figyelembe, ezért segítségével a tartós szabályozási hiba csökkenthető. A deriváló tag a hiba változási sebességére reagál, ezért elsősorban a rendszer csillapításában és a túllendülés csökkentésében van szerepe \cite{ang2005}.
+	\newline
+	\newline
+	Nem minden szabályozási feladatnál szükséges mindhárom tag használata. Amennyiben az integráló tagra nincs szükség, PD szabályozás alkalmazható:
+	\begin{equation}
+		u(t)
+		=
+		K_p e(t)
+		+
+		K_d \frac{de(t)}{dt}.
+	\end{equation}
+	Kétkerekű önkiegyensúlyozó robotoknál a PID és PD szabályozás is gyakran alkalmazott megoldás. A dőlésszög gyors stabilizálására például használható PD szabályozó, míg olyan szabályozási körökben, ahol tartós hiba is kialakulhat, az integráló tag alkalmazása is indokolt lehet \cite{zhangnor2025}.
+	\subsection{Kaszkádolt szabályozási struktúrák}
+	Összetettebb rendszereknél egyetlen szabályozó helyett több egymásba kapcsolt szabályozási kör is használható. Ezt kaszkádolt szabályozási struktúrának nevezzük. Ebben az esetben az egyik szabályozó kimenete egy következő szabályozási kör referenciaértékét adja.
+	\newline
+	\newline
+	A kétkerekű önkiegyensúlyozó robotoknál ez különösen jól alkalmazható, mivel egyszerre kell megoldani az egyensúly megtartását és a robot mozgásának szabályozását. A legbelső szabályozási kör általában a leggyorsabb dinamikájú változót, vagyis a robot dőlésszögét szabályozza. Ezen kívül helyezhető el például egy sebesség- vagy pozíciószabályozó kör \cite{nguyen2017,zhangnor2025}.
+	\newline
+	\newline
+	Nguyen egy kétkerekű önkiegyensúlyozó robot szabályozásánál szintén kaszkádolt PID struktúrát alkalmazott. A szabályozásban külön kezelte a robot egyensúlyozását és mozgását, majd a kialakított rendszert MATLAB/Simulink környezetben és valós roboton is vizsgálta \cite{nguyen2017}.
+	\newline
+	\newline
+	A kaszkádolt kialakítás egyik előnye, hogy az egyes szabályozási feladatok külön kezelhetők. Így például a gyors dőlésszög-szabályozó először stabilizálja a robotot, miközben a lassabb külső szabályozási körök a kívánt sebesség vagy pozíció eléréséért felelnek.
+	\subsection{PID szabályozók hangolási módszerei}
+	A PID szabályozó megfelelő működéséhez szükséges a $K_p$, $K_i$ és $K_d$ paraméterek megfelelő beállítása. Bár maga a PID algoritmus egyszerű, a megfelelő paraméterek meghatározása összetettebb feladat lehet, mivel egyszerre több követelményt, például a gyors beállást, a kis túllendülést és a megfelelő stabilitást is figyelembe kell venni \cite{ang2005,somefun2021}.
+	\newline
+	\newline
+	A szakirodalomban több különböző PID hangolási módszer található. Az egyik legismertebb klasszikus módszer a Ziegler--Nichols hangolás, amely a rendszer válasza alapján ad kiindulási értékeket a szabályozó paramétereire. Emellett léteznek modellalapú, automatikus és különböző optimalizációs módszerek is \cite{somefun2021}.
+	\newline
+	\newline
+	A klasszikus hangolási módszerek előnye, hogy viszonylag egyszerűen alkalmazhatók és gyorsan adhatnak egy használható kiindulási pontot. A kapott paraméterek azonban nem minden esetben adják a kívánt működést, ezért a szabályozók további finomhangolása gyakran szükséges \cite{ang2005,somefun2021}.
+	\newline
+	\newline
+	A kézi hangolás során a szabályozó paramétereit több lépésben változtatják, és minden módosítás után megvizsgálják a rendszer válaszát. Szimulációs környezetben ez viszonylag gyorsan elvégezhető, ezért olyan rendszereknél is használható, ahol a szabályozási körök egymással kapcsolatban állnak és egyetlen általános hangolási módszer nehezen alkalmazható.
+	\subsection{A klasszikus szabályozás előnyei és korlátai}
+	A PID és más klasszikus szabályozók egyik legnagyobb előnye az egyszerű felépítés és az alacsony számítási igény. Emiatt valós idejű szabályozási feladatokban, akár kisebb teljesítményű mikrokontrollereken is jól alkalmazhatók. A PID szabályozó működése könnyen értelmezhető, a szabályozó paramétereinek hatása pedig közvetlenül vizsgálható \cite{ang2005,zhangnor2025}.
+	\newline
+	\newline
+	Kétkerekű önkiegyensúlyozó robotok esetén a PID szabályozás megfelelő hangolás mellett jó eredményeket adhat, különösen egy meghatározott működési tartomány környezetében. A szakirodalomban számos valós roboton is alkalmaztak PID alapú szabályozást \cite{zhangnor2025}.
+	\newline
+	\newline
+	A klasszikus megoldások egyik hátránya viszont, hogy a szabályozó paraméterei a hangolás után általában rögzítettek. Ha a rendszer tulajdonságai jelentősen megváltoznak, például változik a robot tömege, a környezet vagy nagy külső zavarás lép fel, akkor a korábban meghatározott paraméterek már nem feltétlenül biztosítják ugyanazt a teljesítményt \cite{zhangnor2025}.
+	\newline
+	\newline
+	A kétkerekű önkiegyensúlyozó robot ezen kívül alapvetően nemlineáris rendszer, míg a hagyományos PID szabályozás nem használja ki közvetlenül a teljes nemlineáris modell információit. Ez nagyobb működési tartományban vagy összetettebb mozgások esetén korlátozhatja a szabályozó teljesítményét. Ennek ellenére az egyszerűsége, kis számítási igénye és könnyű megvalósíthatósága miatt továbbra is fontos viszonyítási alap más, összetettebb szabályozási módszerek vizsgálatánál \cite{zhangnor2025}.
+	
+	
+	\section{Megerősítéses tanulás szabályozástechnikai alkalmazásokban}
+	\subsection{A megerősítéses tanulás alapjai}
+	A megerősítéses tanulás (Reinforcement Learning, RL) egy olyan gépi tanulási módszer, ahol egy ágens a környezetével való folyamatos kapcsolat során tanulja meg a megfelelő viselkedést. Az ágens nem előre megadott szabályok alapján működik, hanem különböző beavatkozásokat próbál ki, majd az ezekre kapott visszajelzések alapján módosítja a működését \cite{suttonbarto2018,kober2013}.
+	\newline
+	\newline
+	A tanulási folyamat során az ágens megfigyeli a környezet aktuális állapotát, majd ennek alapján kiválaszt egy akciót. Az akció hatására a környezet állapota megváltozik, az ágens pedig egy jutalomértéket kap. A jutalom azt mutatja meg, hogy az adott beavatkozás mennyire volt kedvező a kitűzött feladat szempontjából.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.75\textwidth]{figures/rl_agent_environment.png}
+		\caption{A megerősítéses tanulás alapvető ágens--környezet kapcsolata.}
+		\label{fig:rl_agent_environment}
+	\end{figure}
+	Az ágens célja nem feltétlenül az, hogy minden egyes időpillanatban a lehető legnagyobb jutalmat kapja, hanem hogy hosszabb idő alatt a lehető legnagyobb összesített jutalmat érje el. Ez azért fontos, mert egy rövid távon kedvezőtlen akció később akár jobb eredményhez is vezethet.
+	A diszkontált összesített jutalom általánosan:
+	\begin{equation}
+		G_t =
+		\sum_{k=0}^{\infty}
+		\gamma^k R_{t+k+1},
+	\end{equation}
+	ahol $\gamma$ a diszkonttényező, amely meghatározza, hogy a távolabbi jövőben kapott jutalmak milyen mértékben befolyásolják az ágens döntéseit \cite{suttonbarto2018}.
+	\newline
+	\newline
+	Robotikai szabályozás esetén a környezet maga a szabályozott fizikai rendszer vagy annak szimulációs modellje, az ágens pedig a szabályozó szerepét tölti be. Az ágens a rendszer állapotából származó információk alapján állítja elő a beavatkozó jelet \cite{kober2013}.
+	\subsection{Állapot, akció és jutalom szerepe}
+	A megerősítéses tanulási környezet egyik legfontosabb része annak meghatározása, hogy milyen információkat kapjon az ágens a rendszer aktuális állapotáról. Ezeket az információkat állapotnak vagy megfigyelésnek nevezzük. Robotikai alkalmazásokban ilyen információ lehet például egy pozíció, sebesség, gyorsulás, szöghelyzet vagy szögsebesség \cite{kober2013}.
+	\newline
+	\newline
+	Az ágens a rendelkezésére álló megfigyelések alapján választja ki az akciót. Szabályozástechnikai feladatokban az akció általában közvetlen kapcsolatban áll a rendszer beavatkozó jelével. Ilyen lehet például egy motorra adott feszültség, erő vagy hajtónyomaték.
+	Az ágens működését a policy, vagyis a tanult döntési stratégia határozza meg:
+	\begin{equation}
+		a_t \sim \pi(a_t|s_t),
+	\end{equation}
+	ahol $s_t$ a rendszer állapota, $a_t$ pedig az ágens által választott akció az adott időpillanatban.
+	\newline
+	\newline
+	A harmadik alapvető elem a jutalomfüggvény. Ennek feladata, hogy számszerű visszajelzést adjon az ágens számára arról, hogy az adott állapot és beavatkozás mennyire felel meg a szabályozási célnak. Egy önkiegyensúlyozó robot esetén például pozitívan értékelhető a kis dőlésszög és a referenciaérték megfelelő követése, míg büntethető a nagy dőlés vagy a túl nagy beavatkozó nyomaték.
+	
+	A jutalomfüggvény kialakítása ezért jelentősen befolyásolja, hogy az ágens milyen viselkedést tanul meg. Egy nem megfelelő jutalomfüggvény esetén az ágens olyan megoldást is találhat, amely matematikailag nagy jutalmat eredményez, de valós szabályozási szempontból nem kívánatos \cite{kober2013}.
+	\subsection{Megerősítéses tanulás folytonos szabályozási feladatokban}
+	A szabályozástechnikai alkalmazások jelentős részében az állapotváltozók és a beavatkozó jelek nem csak néhány előre meghatározott értéket vehetnek fel, hanem folytonos tartományban változnak. Egy villanymotor hajtónyomatéka például nem csak néhány diszkrét érték közül választható, hanem egy adott minimum és maximum érték között folytonosan változtatható.
+	\newline
+	\newline
+	Ez különbséget jelent az egyszerűbb, diszkrét akcióterű megerősítéses tanulási feladatokhoz képest. Diszkrét esetben az ágens például néhány előre meghatározott akció közül választhat, míg folytonos akciótér esetén egy tetszőleges valós értéket kell meghatároznia az engedélyezett tartományon belül.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.65\textwidth]{figures/rl_continuous_cartpole.png}
+		\caption{Példa folytonos beavatkozási terű megerősítéses tanulási feladatra egy fordított inga rendszerén.}
+		\label{fig:rl_continuous_control}
+	\end{figure}
+	A folytonos akcióterű problémák kezelésére több olyan megerősítéses tanulási algoritmust fejlesztettek ki, amelyek közvetlenül képesek folytonos beavatkozó jelek előállítására. Ilyen például a Deep Deterministic Policy Gradient (DDPG), amelyet több folytonos fizikai szabályozási feladaton, többek között fordított inga rendszeren is vizsgáltak \cite{lillicrap2015}.
+	\newline
+	\newline
+	Robotikai alkalmazásokban a folytonos akciótér különösen fontos, mivel a motorok által előállított erő vagy nyomaték általában szintén folytonos mennyiség. A tanulási algoritmusnak ezért nemcsak azt kell meghatároznia, hogy milyen irányú beavatkozás szükséges, hanem annak megfelelő nagyságát is.
+	
+	A folytonos állapot- és akcióterek kezelése ugyanakkor nehezebbé teszi a tanulási feladatot, mivel az ágensnek lényegesen nagyobb számú lehetséges állapot és beavatkozás között kell megfelelő működést megtanulnia \cite{kober2013,lillicrap2015}. Emiatt ezeknél a feladatoknál gyakran neurális hálózatokat használnak a policy és más szükséges függvények közelítésére.
+	
+	A dolgozatban vizsgált kétkerekű önkiegyensúlyozó robot szintén ilyen folytonos szabályozási problémát jelent, mivel a robot állapotváltozói folytonos értékeket vesznek fel, a szabályozó kimenete pedig közvetlenül a motorok közös hajtónyomatékához kapcsolódik. Emiatt olyan megerősítéses tanulási algoritmus alkalmazása szükséges, amely folytonos akciótér kezelésére is alkalmas.
+	
+	
+	\section{Soft Actor-Critic algoritmus}
+	\subsection{Actor--Critic alapelv}
+	Az Actor--Critic módszerekben két külön feladatot ellátó elem működik együtt. Az actor feladata annak meghatározása, hogy az ágens az aktuális állapotban milyen akciót hajtson végre, míg a critic az actor által választott akció minőségét értékeli \cite{suttonbarto2018}.
+	\newline
+	\newline
+	Az actor tehát a policy-t, vagyis az ágens döntési stratégiáját valósítja meg:
+	\begin{equation}
+		a_t \sim \pi_{\theta}(a_t|s_t),
+	\end{equation}
+	ahol $s_t$ az aktuális állapot, $a_t$ a kiválasztott akció, $\pi_{\theta}$ pedig az actor által meghatározott policy.
+	
+	A critic ezzel párhuzamosan azt próbálja megbecsülni, hogy egy adott állapotban végrehajtott akció hosszabb távon mennyire kedvező. Ez például az állapot--akció értékfüggvénnyel írható le:
+	\begin{equation}
+		Q(s,a).
+	\end{equation}
+	Az actor a critic visszajelzése alapján módosítja a saját működését. A két hálózat ezért egymással párhuzamosan tanul: az actor egyre jobb akciókat próbál választani, a critic pedig egyre pontosabban próbálja meghatározni ezek várható értékét.
+	\newline
+	\newline
+	Az Actor--Critic módszerek egyik előnye, hogy folytonos akcióterű problémákra is jól alkalmazhatók. Ez szabályozástechnikai feladatoknál különösen fontos, mivel a beavatkozó jel, például egy motor nyomatéka vagy feszültsége általában folytonos értéket vesz fel.
+	\subsection{A Soft Actor-Critic működése}
+	A Soft Actor-Critic (SAC) egy modellfüggetlen, off-policy Actor--Critic megerősítéses tanulási algoritmus, amelyet elsősorban folytonos akcióterű problémák megoldására fejlesztettek ki \cite{haarnoja2018sac}.
+	\newline
+	\newline
+	Az off-policy működés azt jelenti, hogy az ágens a korábban összegyűjtött tapasztalatokat is újra fel tudja használni a tanítás során. A tapasztalatok egy úgynevezett replay bufferben kerülnek tárolásra, amelyből a tanítás során mintákat választ ki az algoritmus. Emiatt ugyanaz a tapasztalat többször is felhasználható, ami javíthatja a tanulás minta-hatékonyságát \cite{haarnoja2018sac}.
+	\newline
+	\newline
+	A SAC egyik fontos tulajdonsága, hogy nem kizárólag a kapott jutalom maximalizálására törekszik. A célfüggvényben megjelenik a policy entrópiája is:
+	\begin{equation}
+		J(\pi)
+		=
+		\sum_t
+		\mathbb{E}
+		\left[
+		r(s_t,a_t)
+		+
+		\alpha
+		\mathcal{H}
+		\left(
+		\pi(\cdot|s_t)
+		\right)
+		\right],
+	\end{equation}
+	ahol $r(s_t,a_t)$ az adott lépéshez tartozó jutalom, $\mathcal{H}$ a policy entrópiája, $\alpha$ pedig az entrópia és a jutalom közötti súlyozást meghatározó paraméter \cite{haarnoja2018sac}.
+	\newline
+	\newline
+	Az entrópia növelése azt eredményezi, hogy az ágens a tanítás során nem mindig ugyanazt az akciót választja, hanem több különböző lehetőséget is kipróbál. Ez segíti a környezet felfedezését, és csökkenti annak esélyét, hogy az ágens túl korán egy nem megfelelő megoldásnál maradjon.
+	
+	A SAC stochasticus, vagyis valószínűségi policy-t használ. Az actor ezért nem közvetlenül egyetlen fix akciót határoz meg, hanem egy valószínűségi eloszlást, amelyből az akció kiválasztható. A tanítás előrehaladtával ez az eloszlás olyan akciók felé tolódik, amelyek magasabb hosszú távú jutalmat eredményeznek.
+	\newline
+	\newline
+	Az eredeti SAC algoritmus egyik célja az volt, hogy a korábbi deep reinforcement learning módszerekhez képest stabilabb tanulást és jobb minta-hatékonyságot biztosítson. Haarnoja és munkatársai folytonos szabályozási benchmarkokon vizsgálták az algoritmust, ahol a SAC több korábbi on-policy és off-policy módszerhez képest is jó eredményeket ért el \cite{haarnoja2018sac}.
+	\newline
+	\newline
+	A SAC későbbi változatában az entrópia súlyozására használt $\alpha$ paraméter automatikus hangolását is bevezették. Ez csökkenti annak szükségességét, hogy ezt a paramétert minden új problémához kézzel kelljen meghatározni \cite{haarnoja2018applications}.
+	A SAC-ot robotikai feladatokon is vizsgálták, többek között négylábú robot mozgásának és robotkéz manipulációs feladatainak tanítására. Ezek az eredmények azt mutatták, hogy az algoritmus összetett, folytonos szabályozási problémák esetén is alkalmazható \cite{haarnoja2018applications}.
+	\newline
+	\newline
+	A jelen dolgozat szempontjából a SAC egyik fontos tulajdonsága, hogy közvetlenül képes folytonos beavatkozó jel előállítására. Ez lehetővé teszi, hogy a tanult policy egy előre meghatározott tartományon belül közvetlenül adja meg a robot számára szükséges hajtónyomatékot.
+	\section{Klasszikus és tanulásalapú szabályozók összehasonlítása}
+	\subsection{Szabályozási teljesítményt jellemző mérőszámok}
+	Különböző szabályozási módszerek összehasonlításánál fontos, hogy az értékelés azonos körülmények és előre meghatározott mérőszámok alapján történjen. Önmagában az, hogy egy rendszer stabilan működik, nem elegendő annak eldöntésére, hogy az egyik szabályozó jobb-e a másiknál. Figyelembe kell venni többek között a referenciajel követésének pontosságát, a beállási időt, a maximális eltérést és a szükséges beavatkozás nagyságát is \cite{zhangnor2025}.
+	\newline
+	\newline
+	A szabályozási hiba jellemzésére használható például a négyzetes középértékből számított RMSE:
+	\begin{equation}
+		\mathrm{RMSE}
+		=
+		\sqrt{
+			\frac{1}{N}
+			\sum_{k=1}^{N}
+			\left(
+			x_{\mathrm{ref},k}-x_k
+			\right)^2
+		}.
+	\end{equation}
+	Az RMSE egyetlen értékkel jellemzi, hogy a vizsgált jel a teljes mérési idő alatt átlagosan mennyire tért el a referenciaértéktől. Önkiegyensúlyozó robot esetén külön vizsgálható például a dőlésszög, a sebesség és a pozíció hibája.
+	\newline
+	\newline
+	Fontos mérőszám továbbá a maximális eltérés. Dőlésszög esetén ez megmutatja, hogy a robot a vizsgálat során legfeljebb milyen messz került a függőleges helyzettől:
+	\begin{equation}
+		\theta_{\max}
+		=
+		\max |\theta(t)|.
+	\end{equation}
+	A beállási idő azt mutatja meg, hogy egy kezdeti eltérés vagy referenciajel-változás után mennyi idő szükséges ahhoz, hogy a rendszer egy meghatározott hibahatáron belül stabilizálódjon. Vizsgálható továbbá a túllendülés és a végső, állandósult hiba is.
+	\newline
+	\newline
+	A szabályozó teljesítményének értékelésénél a beavatkozó jel nagysága sem hagyható figyelmen kívül. Két szabályozó hasonló követési pontosság mellett jelentősen eltérő motor-nyomatékot igényelhet. Emiatt vizsgálható a maximális hajtónyomaték, annak RMS értéke, illetve a teljes vizsgálat alatt felhasznált beavatkozási energia közelítő értéke.
+	\newline
+	\newline
+	Klasszikus és tanulásalapú szabályozó összehasonlításánál különösen fontos, hogy mindkét algoritmus ugyanazon dinamikai modellen, azonos kezdeti állapotokkal, referenciajelekkel és beavatkozási korlátokkal kerüljön tesztelésre. Így a kapott eltérések nagyobb valószínűséggel magából a szabályozási módszerből adódnak, nem pedig a vizsgálati körülmények különbségéből.
+	\subsection{Robusztusság, számítási igény és valós idejű alkalmazhatóság}
+	Egy szabályozó vizsgálatánál a névleges működés mellett annak robusztussága is fontos szempont. A valós rendszerben a kezdeti állapot, a modellparaméterek és a környezeti hatások sem tekinthetők mindig pontosan ismertnek. Emiatt érdemes a szabályozókat eltérő kezdeti dőlésszögek, külső zavarások és módosított modellparaméterek mellett is vizsgálni \cite{busoniu2018,zhangnor2025}.
+	\newline
+	\newline
+	A klasszikus PID szabályozók egyik előnye, hogy egyszerű felépítésük miatt kis számítási igénnyel rendelkeznek, így valós idejű alkalmazásuk általában könnyen megoldható. Hátrányuk lehet ugyanakkor, hogy a rögzített szabályozóparaméterek miatt a rendszer jelentős megváltozása esetén a korábban megfelelő hangolás már nem feltétlenül ad azonos teljesítményt \cite{zhangnor2025}.
+	\newline
+	\newline
+	A megerősítéses tanuláson alapuló szabályozók képesek összetett, nemlineáris szabályozási stratégia megtanulására, és megfelelő tanítás esetén változó körülmények között is jó teljesítményt nyújthatnak. A szakirodalomban kétkerekű önkiegyensúlyozó robot esetén is vizsgáltak RL-alapú és klasszikus PID szabályozókat külső zavarás mellett \cite{hernandez2024}. A tanulásalapú megoldásoknál ugyanakkor a stabilitás és a korábban nem látott állapotokra történő általánosítás továbbra is fontos vizsgálati kérdés \cite{busoniu2018}.
+	\newline
+	\newline
+	A két szabályozási módszer összehasonlításánál a számítási igényt is figyelembe kell venni. A PID szabályozó néhány egyszerű matematikai műveletből számítja a beavatkozó jelet, míg egy neurális hálózaton alapuló szabályozó esetén minden szabályozási lépésben végre kell hajtani a hálózat előrehaladó számítását. Emiatt a tanulásalapú szabályozó végrehajtási ideje és memóriaigénye általában nagyobb \cite{zhangnor2025}.
+	\newline
+	\newline
+	Fontos különbséget tenni a megerősítéses tanulási algoritmus betanításának és a már betanított szabályozó futtatásának számítási igénye között. A tanítás akár nagyszámú szimulációs lépést és jelentős számítási kapacitást igényelhet, azonban a valós robot működése során már csak a betanított policy kiértékelését kell elvégezni.
+	\newline
+	\newline
+	Valós idejű alkalmazhatóság szempontjából ezért az egyik fontos mérőszám a szabályozó egyetlen vezérlési lépésének végrehajtási ideje. A szabályozónak minden esetben a rendszer mintavételi idején belül kell előállítania a következő beavatkozó jelet. Ennek vizsgálatára mérhető az átlagos és maximális számítási idő, valamint a processzor-, memória- és szükség esetén a grafikus processzor terhelése.
+	\newline
+	\newline
+	A klasszikus és tanulásalapú szabályozók összehasonlításánál ezért nem csak az a kérdés, hogy melyik képes pontosabban szabályozni a rendszert. Egy valós roboton történő alkalmazás szempontjából ugyanilyen fontos a robusztusság, a szükséges beavatkozás nagysága, a számítási igény és az, hogy a szabályozó képes-e a szükséges időkorláton belül működni.
 
 	\chapter{Anyag és módszer}
 	
@@ -833,5 +1148,631 @@ bottom=25mm
 		}
 		\label{fig:csillapitott_szabadeses}
 	\end{figure}
+	
+	\section{Klasszikus kaszkád szabályozó kialakítása}
+	
+	A kétkerekű önkiegyensúlyozó robot szabályozásának első lépéseként egy klasszikus, kaszkádolt szabályozási struktúra került kialakításra.
+	\newline
+	\newline
+	A szabályozó célja az volt, hogy a robotot $\theta = 0$ dőlésszöghöz a legközelebb tartsa tehát stabilizálja a függőleges egyensúlyi helyzetet, a sebesség kövesse a kijelölt referenciaértéket, és a pozíciót a referenciaértéknek megfelelően megközelítse.
+	\newline
+	\newline
+	A kaszkádolt szabályozásban a dőlésszögszabályzó volt a legbelső, amely azért volt fontos, mert ennek kellett a leggyorsabban működnie és hatást kifejtenie a rendszerre. Ez után eggyel kijjebb elhelyezkedő kör volt a sebességszabályzó, majd legkívülre került a pozíciószabályzás. A szabályzó kimenete $\tau_c$ volt, mely nem más, mint a két kerék hajtónyomatékának közös komponense.
+	
+	\begin{equation}
+		s_{\mathrm{ref}}
+		\rightarrow
+		v_{\mathrm{ref}}
+		\rightarrow
+		\theta_{\mathrm{ref}}
+		\rightarrow
+		\tau_c
+	\end{equation}
+	
+	\subsection{Belső dőlésszög-szabályozó}
+	
+	Először csak az egyensúlyozási problémát oldottam meg. Ehhez egy arányos-deriváló szabályozót hoztam létre, amelyben az arányos tag a dőlésszög-hibára reagál, míg a deriváló tag csillapítja a mozgást, valamint csökkenti a túllendülést és az oszcillációt.
+	\begin{equation}
+		e_\theta = \theta - \theta_{\mathrm{ref}}
+	\end{equation}
+	\newpage
+	A legbelső szabályozási kör szabályozási törvénye az alábbi:
+	\begin{equation}
+		\tau_c^*
+		=
+		K_{p,\theta}e_\theta
+		+
+		K_{d,\theta}\dot{\theta}.
+	\end{equation}
+	A $\tau_c^*$ jelölésben szereplő csillag azt jelzi, hogy ez még a szabályozó által előállított, szaturáció előtti beavatkozó jel. A szabályozás során alkalmazott paraméterek:
+	
+	\begin{equation}
+		K_{p,\theta}=2,
+		\qquad
+		K_{d,\theta}=0{,}2.
+	\end{equation}
+	A közös hajtónyomatékot a hajtás fizikai korlátainak figyelembevétele érdekében $\pm 2\,\mathrm{Nm}$ értékre korlátoztam:
+	
+	\begin{equation}
+		|\tau_c|\leq 2\,\mathrm{Nm}.
+	\end{equation}
+	A belső dőlésszög-szabályozó felépítése a
+	\ref{fig:dolesszog_szabalyozo}. ábrán látható.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.85\textwidth]{figures/dolesszog_blokk.png}
+		\caption{A belső dőlésszög-szabályozó blokkdiagramja.}
+		\label{fig:dolesszog_szabalyozo}
+	\end{figure}
+	
+	\subsection{Sebességszabályozó kör}
+	
+	Miután a belső dőlésszög-szabályozó megfelelően stabilizálta a robotot, a következő lépés az előremeneti sebesség szabályozása volt. A sebességszabályozó nem közvetlenül a motor nyomatékát határozza meg, hanem a belső szabályozási kör számára állít elő dőlésszög-referenciaértéket.
+	\newline
+	\newline
+	A sebességhiba az aktuális és a kívánt sebesség különbségéből adódik:
+	
+	\begin{equation}
+		e_v = v_{\mathrm{ref}} - v.
+	\end{equation}
+	A sebességszabályozó arányos és integráló tagot tartalmazott. Az arányos tag a pillanatnyi sebességhibára reagál, míg az integráló tag célja az volt, hogy a tartós sebességeltérést csökkentse.
+	\newline
+	\newline
+	A szabályozó kimenete a dőlésszög referenciaértéke:
+	
+	\begin{equation}
+		\theta_{\mathrm{ref}}^*
+		=
+		K_{p,v}e_v
+		+
+		K_{i,v}x_I.
+	\end{equation}
+	\newpage
+	A sebességszabályozó paramétereit a szimulációk során fokozatosan hangoltam. A végül alkalmazott értékek:
+	
+	\begin{equation}
+		K_{p,v}=0{,}25,
+		\qquad
+		K_{i,v}=0{,}3.
+	\end{equation}
+	A kezdeti vizsgálatok során tiszta integráló tag alkalmazása mellett kis sebességek környezetében tartós lengés jelentkezett. Ez főként a modellben szereplő súrlódási hatások miatt alakult ki. Ennek csökkentésére a tiszta integrátor helyett egy szivárgó integráló tagot alkalmaztam:
+	
+	\begin{equation}
+		X_I(s)
+		=
+		\frac{1}{s+1}E_v(s).
+	\end{equation}
+	Ez a megoldás lehetővé tette, hogy az integráló hatás megmaradjon, ugyanakkor csökkentette a nulla sebesség környezetében kialakuló oszcillációt.
+	\newline
+	\newline
+	A sebességszabályozó által előállított dőlésszög-referencia szintén korlátozásra került. A túl nagy referenciaérték túl nagy dőlést és ezzel instabil viselkedést eredményezhetne, ezért a maximális referenciaértéket
+	
+	\begin{equation}
+		|\theta_{\mathrm{ref}}|
+		\leq
+		8^\circ
+	\end{equation}
+	értékben határoztam meg.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.85\textwidth]{figures/sebszabkor.png}
+		\caption{A középső sebesség-szabályozó blokkdiagramja.}
+		\label{fig:dolesszog_szabalyozo}
+	\end{figure}
+	
+	\subsection{Pozíciószabályozó kör}
+	
+	A kaszkádolt szabályozási struktúra legkülső körét a pozíciószabályozó alkotja. Ennek feladata, hogy a robot aktuális pozíciója és az előírt referenciaérték közötti eltérés alapján meghatározza a sebességszabályozó számára szükséges sebesség-referenciaértéket.
+	\newline
+	A pozícióhiba:
+	
+	\begin{equation}
+		e_s = s_{\mathrm{ref}} - s.
+	\end{equation}
+	A pozíciószabályozó kialakításánál egy arányos szabályozást alkalmaztam. A szabályozó kimenete közvetlenül a következő, sebességszabályozó kör referenciaértéke:
+	
+	\begin{equation}
+		v_{\mathrm{ref}}^*
+		=
+		K_{p,s} e_s.
+	\end{equation}
+	A szabályozó paraméterének hangolása szimulációs vizsgálatok alapján történt. A végül alkalmazott érték:
+	
+	\begin{equation}
+		K_{p,s}=0{,}05.
+	\end{equation}
+	A pozícióhiba növekedésével a szabályozó egyre nagyobb sebesség-referenciaértéket állítana elő. A robot túlzott sebességének és az ebből következő nagy dőlésszög-referenciák elkerülése érdekében ezért a sebesség-referencia értékét korlátoztam:
+	
+	\begin{equation}
+		|v_{\mathrm{ref}}|
+		\leq
+		0{,}2\,\mathrm{m/s}.
+	\end{equation}
+	A pozíciószabályozó ezért nem közvetlenül a motorok nyomatékára hat, hanem a sebességszabályozó számára hoz létre referenciaértéket. A sebességszabályozó ebből dőlésszög-referenciát állít elő, amelyet végül a belső dőlésszög-szabályozó alakít át közös hajtónyomatékká.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.85\textwidth]{figures/pozszabkor.png}
+		\caption{A külső pozíció-szabályozó blokkdiagramja.}
+		\label{fig:dolesszog_szabalyozo}
+	\end{figure}
+	
+	\subsection{Irányszög-sebesség szabályozása}
+	
+	A hosszirányú mozgás szabályozása mellett szükséges volt a robot fordulásának vezérlése is. Ezt a két kerék hajtónyomatékának különbségi komponensével, vagyis a $\tau_d$ nyomatékkal valósítottam meg.
+	\newline
+	\newline
+	A szabályozás során nem közvetlenül a $\psi$ irányszöget, hanem annak idő szerinti deriváltját, vagyis a fordulási szögsebességet szabályoztam. A hibajel:
+	
+	\begin{equation}
+		e_{\dot{\psi}}
+		=
+		\dot{\psi}_{\mathrm{ref}}
+		-
+		\dot{\psi}.
+	\end{equation}
+	A különbségi nyomaték meghatározásához arányos szabályozót alkalmaztam:
+	
+	\begin{equation}
+		\tau_d^*
+		=
+		K_{p,\psi}e_{\dot{\psi}}.
+	\end{equation}
+	A szabályozó arányos erősítése:
+	
+	\begin{equation}
+		K_{p,\psi}=0{,}02.
+	\end{equation}
+	A túl nagy fordulási nyomaték elkerülése érdekében a különbségi nyomatékot szintén korlátoztam:
+	
+	\begin{equation}
+		|\tau_d|
+		\leq
+		0{,}2\,\mathrm{Nm}.
+	\end{equation}
+	A $\tau_c$ közös hajtónyomaték így elsősorban az egyensúlyozást és a hosszirányú mozgást, míg a $\tau_d$ különbségi nyomaték a robot fordulását határozza meg.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.85\textwidth]{figures/pozszabkor.png}
+		\caption{Az Irányszög-Sebesség-szabályozó blokkdiagramja.}
+		\label{fig:dolesszog_szabalyozo}
+	\end{figure}
+
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{figures/teljesszab.png}
+		\caption{A teljes kaszkádolt szabályozó blokkdiagramja.}
+		\label{fig:dolesszog_szabalyozo}
+	\end{figure}
+	
+	
+	\section{Megerősítéses tanulási környezet kialakítása}
+	\subsection{A szabályozási feladat meghatározása}
+	A klasszikus szabályozó elkészítése után a következő lépés egy megerősítéses tanuláson alapuló szabályozó kialakítása volt. Az volt a célom, hogy a korábban elkészített nemlineáris robotmodellt ne változtassam meg, hanem ugyanazon a modellen vizsgáljam meg, hogy egy tanulásalapú szabályozó milyen eredményeket tud elérni.
+	\newline
+	\newline
+	A megerősítéses tanulási környezetben ezért ugyanazt a három szabadságfokú robotmodellt használtam, amely a klasszikus szabályozó fejlesztésének alapját is képezte. A modell továbbra is tartalmazza a hosszirányú mozgást, a főtest dőlését és a yaw mozgást, valamint a korábban beépített súrlódási és egyéb veszteségi hatásokat.
+	\newline
+	\newline
+	Az RL szabályozási feladatot ugyanakkor a robot egyensúlyozására és hosszirányú mozgására korlátoztam. Az ágens feladata tehát az volt, hogy a robotot a függőleges, $\theta=0$ helyzet közelében tartsa, miközben a robot sebessége és pozíciója a megadott referenciaértékeket követi.
+	\newline
+	\newline
+	A tanulásalapú szabályozó közvetlenül a két kerék közös hajtónyomatékát, vagyis a $\tau_c$ értékét határozza meg:
+	\begin{equation}
+		a = \tau_c.
+	\end{equation}
+	A beavatkozó nyomatékot ugyanúgy korlátoztam, mint a klasszikus szabályozó esetében:
+	\begin{equation}
+		-2,\mathrm{Nm}
+		\leq
+		\tau_c
+		\leq
+		2,\mathrm{Nm}.
+	\end{equation}
+	Ezzel biztosítható, hogy a két szabályozási módszer azonos beavatkozási korlátok mellett legyen később összehasonlítható.
+	\newline
+	\newline
+	A robot fordulását meghatározó $\tau_d$ különbségi nyomaték nem része a jelenlegi megerősítéses tanulási feladatnak. Az RL vizsgálatok során ezért a yaw referenciaértéke nulla, és a különbségi hajtónyomatékot
+	\begin{equation}
+		\tau_d = 0
+	\end{equation}
+	értéken tartottam. A yaw dinamika ettől függetlenül továbbra is része maradt a teljes nemlineáris modellnek. A vizsgálatot azért szűkítettem a hosszirányú mozgásra és az egyensúlyozásra, hogy a klasszikus és a tanulásalapú szabályozó ugyanazon jól meghatározott feladaton legyen összehasonlítható.
+	\newline
+	\newline
+	A szabályozó diszkrét időközönként avatkozik be a rendszer működésébe. A megerősítéses tanulási környezet mintavételi idejét
+	\begin{equation}
+		T_s = 0{,}02,\mathrm{s}
+	\end{equation}
+	értékben határoztam meg, vagyis az ágens másodpercenként 50 alkalommal kap új megfigyelést a rendszerről és állít elő új beavatkozó jelet.
+	\newline
+	\newline
+	A kialakított szabályozási körben az ágens minden időlépésben megkapja a robot aktuális állapotából és a referenciajelekből összeállított megfigyelési vektort. A tanítás során alkalmazott referenciajelek, valamint a jutalom- és terminációs feltételek kialakítása a \ref{fig:rl_kornyezet_bemenetek}. ábrán látható.
+	\newline
+	\newline
+	Az ágens a megfigyelések és a kapott jutalom alapján állítja elő a következő beavatkozó jelet. Az ágens kimenete egy szaturációs blokkon keresztül a robotmodell $\tau_c$ közös hajtónyomaték bemenetére kerül. A különbségi nyomaték értékét az RL vizsgálatok során $\tau_d=0$ értéken tartottam. Az ágens és a robotmodell közötti kapcsolat a \ref{fig:rl_agent_robotmodell}. ábrán látható.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.95\textwidth]
+		{figures/rl_kornyezet_bemenetek.png}
+		\caption{A megerősítéses tanulási környezet referenciajeleinek, jutalomfüggvényének és ágensbemeneteinek kialakítása.}
+		\label{fig:rl_kornyezet_bemenetek}
+	\end{figure}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.95\textwidth]
+		{figures/rl_agent_robotmodell.png}
+		\caption{Az RL ágens kapcsolata a beavatkozó jellel és a nemlineáris robotmodellel.}
+		\label{fig:rl_agent_robotmodell}
+	\end{figure}
+	\subsection{Megfigyelési tér és beavatkozó jel}
+	A megerősítéses tanulási környezet kialakításánál meg kellett határozni, hogy az ágens milyen információkat kapjon a robot aktuális állapotáról és a kívánt mozgásról. A cél az volt, hogy az ágens rendelkezzen minden olyan információval, amely szükséges az egyensúly megtartásához, valamint a sebesség- és pozícióreferencia követéséhez.
+	\newline
+	\newline
+	A végleges megfigyelési vektor hat elemből áll:
+	\begin{equation}
+		\mathbf{o}
+		=
+		\begin{bmatrix}
+			s_{\mathrm{ref}} \
+			s \
+			v_{\mathrm{cmd}} \
+			v \
+			\theta \
+			\dot{\theta}
+		\end{bmatrix}.
+	\end{equation}
+	A megfigyelési vektorban $s_{\mathrm{ref}}$ a kívánt pozíció, $s$ a robot aktuális pozíciója, $v_{\mathrm{cmd}}$ a kívánt előremeneti sebesség, $v$ pedig a tényleges sebesség. Ezek mellett az ágens megkapja a robot $\theta$ dőlésszögét és $\dot{\theta}$ dőlési szögsebességét is.
+	\newline
+	\newline
+	A dőlésszög és a dőlési szögsebesség elsősorban az egyensúlyozási feladathoz szükséges. A sebesség és a pozíció megadásával az ágens nemcsak a robot függőleges helyzetét tudja stabilizálni, hanem a kívánt hosszirányú mozgást is figyelembe tudja venni.
+	\newline
+	\newline
+	A sebességparancsból a környezetben integrálással állítom elő a hozzá tartozó pozícióreferenciát:
+	\begin{equation}
+		s_{\mathrm{ref}}(t)
+		=
+		\int v_{\mathrm{cmd}}(t),dt.
+	\end{equation}
+	Így például állandó pozitív sebességparancs esetén a pozícióreferencia folyamatosan növekszik. Ennek segítségével az ágens egyszerre kap információt a kívánt sebességről és arról is, hogy a robotnak az adott időpillanatban körülbelül hol kellene tartania.
+	\newline
+	\newline
+	A szabályozó egyetlen kimenete a két kerék közös hajtónyomatéka:
+	\begin{equation}
+		a=\tau_c.
+	\end{equation}
+	Az akció folytonos értéket vehet fel a
+	\begin{equation}
+		-2,\mathrm{Nm}
+		\leq
+		\tau_c
+		\leq
+		2,\mathrm{Nm}
+	\end{equation}
+	tartományban. Az RL Agent által előállított érték egy szaturációs blokkon keresztül kerül a robotmodell bemenetére, így az ágens nem tud a megadott fizikai korlátnál nagyobb hajtónyomatékot létrehozni.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.9\textwidth]{figures/rl_observation.png}
+		\caption{Az RL ágens megfigyelési vektorának összeállítása.}
+		\label{fig}
+	\end{figure}
+	\subsection{A jutalomfüggvény kialakítása}
+	A megerősítéses tanulás során az ágens működését a jutalomfüggvény határozza meg. A jutalomfüggvény kialakításánál az volt a célom, hogy az ágens egyszerre tanulja meg a robot függőleges helyzetének megtartását, a kívánt sebesség és pozíció követését, valamint lehetőség szerint ne használjon indokolatlanul nagy hajtónyomatékot.
+	\newline
+	\newline
+	Mivel a jutalomfüggvényben szereplő mennyiségek különböző nagyságrendűek és különböző mértékegységűek, ezért először normalizált hibaváltozókat alakítottam ki. A pozíció- és sebességhiba:
+	\begin{equation}
+		e_s
+		=
+		\frac{s_{\mathrm{ref}}-s}{0{,}5},
+	\end{equation}
+	\begin{equation}
+		e_v
+		=
+		\frac{v_{\mathrm{cmd}}-v}{0{,}2}.
+	\end{equation}
+	A dőlésszög normalizált értékét $10^\circ$-hoz viszonyítottam:
+	\begin{equation}
+		\theta_N
+		=
+		\frac{\theta}{10^\circ},
+	\end{equation}
+	míg a dőlési szögsebességnél:
+	\begin{equation}
+		\dot{\theta}_N
+		=
+		\frac{\dot{\theta}}{2}.
+	\end{equation}
+	A beavatkozó nyomaték normalizált értéke:
+	\begin{equation}
+		\tau_N
+		=
+		\frac{\tau_{\mathrm{prev}}}{2}.
+	\end{equation}
+	\newline
+	\newline
+	A végleges jutalomfüggvényben ezek négyzetes hibái szerepelnek különböző súlyokkal:
+	\begin{equation}
+		r
+		=
+		1-
+		\left(
+		e_s^2
+		+
+		e_v^2
+		+
+		4\theta_N^2
+		+
+		0{,}25\dot{\theta}_N^2
+		+
+		0{,}02\tau_N^2
+		\right).
+	\end{equation}
+	A legnagyobb súlyt a dőlésszög kapta, mivel az elsődleges feladat továbbra is a robot egyensúlyának megtartása. A pozíció- és sebességhiba azonos súllyal szerepel, így az ágensnek a kívánt mozgást is követnie kell. A dőlési szögsebesség külön büntetése a gyors lengések csökkentését segíti.
+	\newline
+	\newline
+	A hajtónyomatékhoz tartozó büntetés súlya ehhez képest kicsi. Ennek célja nem az volt, hogy az ágens mindenáron kis nyomatékot használjon, hanem hogy két hasonlóan jó megoldás közül lehetőség szerint azt válassza, amelyhez kisebb beavatkozás szükséges.
+	\newline
+	\newline
+	A jutalomfüggvényben nem a pillanatnyi $\tau_c$ nyomaték, hanem az előző időlépéshez tartozó $\tau_{\mathrm{prev}}$ érték szerepel. Ehhez a Simulink modellben egy Unit Delay blokkot alkalmaztam. Erre azért volt szükség, mert a pillanatnyi akció közvetlen visszavezetése a jutalomfüggvényre algebrai hurkot hozott volna létre az RL Agent és a reward számítása között. A robotmodell ettől függetlenül mindig az aktuális, késleltetés nélküli $\tau_c$ nyomatékot kapja.
+	\newline
+	\newline
+	A normál jutalmazás mellett egy terminációs feltételt is meghatároztam. Amennyiben a robot dőlésszögének abszolút értéke meghaladja a
+	\begin{equation}
+		|\theta|>30^\circ
+	\end{equation}
+	értéket, az adott tanítási epizód befejeződik. Ebben az esetben az ágens
+	\begin{equation}
+		r=-100
+	\end{equation}
+	jutalmat kap. Ez egyértelműen bünteti azokat az eseteket, amikor az ágens elveszíti a robot egyensúlyát.
+	\newline
+	\newline
+	A jutalomfüggvény végleges kialakítása több tanítási próbálkozás és módosítás eredménye volt. A kezdeti változatoknál elsősorban az egyensúly megtartása dominált, majd a későbbi változatokban nagyobb szerepet kapott a sebesség- és pozíciókövetés is. A végleges változatot a később bemutatott SAC ágens tanításánál használtam.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.6\textwidth]{figures/rl_reward_termination.png}
+		\caption{A jutalom és az epizód befejezési feltételének számítása a Simulink modellben.}
+		\label{fig}
+	\end{figure}
+	\section{Soft Actor-Critic ágens kialakítása és tanítása}
+	A megerősítéses tanulási környezet kialakítása után a következő lépés a Soft Actor-Critic ágens létrehozása és betanítása volt. A tanítás teljes egészében MATLAB/Simulink környezetben, a Reinforcement Learning Toolbox használatával történt. Az ágens ugyanazt a nemlineáris robotmodellt használta környezetként, amelyen korábban a klasszikus szabályozót is kialakítottam.
+	\subsection{Az SAC ágens felépítése}
+	Az SAC algoritmust azért választottam, mert a szabályozási feladat folytonos beavatkozási terű. A szabályozó kimenete nem néhány előre meghatározott érték közül választ, hanem a megengedett tartományon belül tetszőleges hajtónyomatékot állíthat elő.
+	\newline
+	\newline
+	Az ágens bemenetét a korábban meghatározott hat elemű megfigyelési vektor adja:
+	\begin{equation}
+		\mathbf{o}
+		=
+		\begin{bmatrix}
+			s_{\mathrm{ref}} &
+			s &
+			v_{\mathrm{cmd}} &
+			v &
+			\theta &
+			\dot{\theta}
+		\end{bmatrix}^{T}.
+	\end{equation}
+	Az ágens egyetlen kimenete a két kerék közös hajtónyomatéka:
+	\begin{equation}
+		a=\tau_c,
+	\end{equation}
+	amelynek megengedett tartománya:
+	\begin{equation}
+		-2\,\mathrm{Nm}
+		\leq
+		\tau_c
+		\leq
+		2\,\mathrm{Nm}.
+	\end{equation}
+	A robot fordulását meghatározó $\tau_d$ különbségi nyomaték a tanítás során nulla értéken maradt, vagyis az SAC ágens kizárólag az egyensúlyozásért és a hosszirányú mozgásért felelt.
+	\newline
+	\newline
+	Az SAC felépítésének megfelelően az ágens actor és critic részekből áll. Az actor feladata a pillanatnyi megfigyelések alapján a beavatkozó jel meghatározása, míg a critic a tanítás során azt értékeli, hogy az adott állapotban kiválasztott akció hosszabb távon mennyire kedvező.
+	A szabályozási lépések mintavételi ideje
+	\begin{equation}
+		T_s=0{,}02\,\mathrm{s}
+	\end{equation}
+	volt, vagyis az ágens másodpercenként 50 alkalommal állított elő új beavatkozó jelet.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.9\textwidth]{figures/sac_agent_felepites.png}
+		\caption{A Soft Actor-Critic ágens kapcsolata a Simulink környezettel.}
+		\label{fig:sac_agent_felepites}
+	\end{figure}
+	\subsection{Tanítási környezet és kezdeti feltételek}
+	A tanítás során nem egyetlen rögzített kezdeti állapotból indítottam minden epizódot. Ennek az volt a célja, hogy az ágens ne kizárólag egy meghatározott kezdeti helyzet stabilizálását tanulja meg.
+	\newline
+	\newline
+	A robot kezdeti dőlésszögét minden tanítási epizód elején véletlenszerűen választottam a
+	
+	\begin{equation}
+		-5^\circ
+		\leq
+		\theta_0
+		\leq
+		5^\circ
+	\end{equation}
+	tartományból.
+	Ez azt jelentette, hogy az ágensnek előre és hátrafelé történő kezdeti dőlésből is vissza kellett állítania a robotot a függőleges helyzet közelébe.
+	\newline
+	\newline
+	A tanítás során alkalmazott sebességparancs szintén változó volt. A tanítási referencia véletlenszerűen került meghatározásra a
+	
+	\begin{equation}
+		-0{,}15\,\mathrm{m/s}
+		\leq
+		v_{\mathrm{cmd}}
+		\leq
+		0{,}15\,\mathrm{m/s}
+	\end{equation}
+	tartományban.
+	\newline
+	\newline
+	Ez lehetővé tette, hogy az ágens ne csak álló helyzetben történő egyensúlyozást tanuljon, hanem pozitív és negatív irányú mozgás mellett is találkozzon különböző állapotokkal.
+	\newline
+	\newline
+	A kiválasztott sebességparancsból integrálással állítottam elő a hozzá tartozó pozícióreferenciát:
+	\begin{equation}
+		s_{\mathrm{ref}}(t)
+		=
+		\int v_{\mathrm{cmd}}(t)\,dt.
+	\end{equation}
+	Így a sebesség- és pozícióreferencia egymással összhangban változott a tanítás során.
+	\newline
+	\newline
+	A Simulink modellben külön választottam a kézi teszteléshez és a tanításhoz használt referenciajeleket. A \texttt{trainingMode} változó határozta meg, hogy a rendszer a kézzel megadott parancsot vagy a tanítás során generált véletlenszerű sebességreferenciát használja.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.9\textwidth]{figures/sac_training_reference.png}
+		\caption{A tanítás során alkalmazott referenciajelek előállítása.}
+		\label{fig:sac_training_reference}
+	\end{figure}
+	
+	Az epizód azonnal befejeződött, ha a robot dőlésszöge meghaladta a korábban meghatározott
+	\begin{equation}
+		|\theta|>30^\circ
+	\end{equation}
+	határértéket. Ezzel elkerülhető volt, hogy az ágens egy már elvesztett egyensúlyi állapotból hosszú ideig folytassa az adott epizódot.
+	\subsection{A tanítás során végzett módosítások}
+	A végleges tanítási környezet nem az első változatban alakult ki. A fejlesztés során több problémát is tapasztaltam, ezért az observation, a jutalomfüggvény és a referenciajelek kezelését több lépésben módosítottam.
+	\newline
+	\newline
+	Az első tanítási próbálkozások során elsősorban az egyensúly megtartására és a sebesség követésére helyeztem a hangsúlyt. A pozíció ekkor még nem kapott megfelelő szerepet a tanításban. A robot képes volt az egyensúly megtartására és a sebesség követésére, azonban hosszabb működés során a pozíciója fokozatosan el tudott sodródni.
+	\newline
+	\newline
+	Ennek javítására a későbbi változatban a robot aktuális pozícióját és a pozíció referenciaértékét is hozzáadtam a megfigyelési térhez. A jutalomfüggvényben szintén megjelent a pozícióhiba büntetése. Ezzel az ágens számára már nemcsak az vált fontossá, hogy megfelelő sebességgel mozogjon, hanem az is, hogy hosszabb távon a kívánt pozícióhoz tartson.
+	\newline
+	\newline
+	A tanítás további vizsgálata során egy referenciajel-kezelési hibát is találtam. Az egyik korábbi modellváltozatban a jutalomfüggvény a tanításhoz generált véletlenszerű sebességparancsot kapta, miközben az ágens megfigyelési vektorában nem minden esetben ugyanez a referenciaérték szerepelt. Így előfordulhatott, hogy az ágens egy olyan referencia alapján kapott jutalmat vagy büntetést, amelyet a saját bemenetén nem látott.
+	\newline
+	\newline
+	A hiba javításakor létrehoztam egy közös, ténylegesen alkalmazott $v_{\mathrm{cmd}}$ referenciajelet. Ezt a jelet ezután ugyanúgy megkapta
+	\begin{itemize}
+		\item az ágens megfigyelési vektora,
+		\item a jutalomfüggvény,
+		\item valamint a pozícióreferenciát előállító integrátor.
+	\end{itemize}
+	Ezzel a tanítás minden része ugyanazt a referenciajelet használta.
+	\newline
+	\newline
+	A jutalomfüggvény kialakításánál további problémát jelentett a pillanatnyi hajtónyomaték visszacsatolása. Ha az aktuális $\tau_c$ jel közvetlenül bekerült volna a reward számításába, akkor a Simulink modellben algebrai hurok alakult volna ki az ágens kimenete és a jutalomfüggvény között.
+	\newline
+	\newline
+	Ennek megoldására kizárólag a jutalom számításánál egy Unit Delay blokkot alkalmaztam, így a jutalomfüggvény az előző szabályozási lépéshez tartozó
+	\begin{equation}
+		\tau_{\mathrm{prev}}
+	\end{equation}
+	értéket használta. Fontos, hogy ez a késleltetés csak a jutalom számításában szerepelt. A robotmodell minden esetben az ágens aktuális, késleltetés nélküli nyomatékát kapta.
+	\newline
+	\newline
+	A tanítás során a jutalomfüggvény súlyait is több alkalommal módosítottam. A cél az volt, hogy az egyensúly megtartása továbbra is elsődleges legyen, de közben a sebesség- és pozíciókövetés is megfelelő hangsúlyt kapjon. Ennek eredményeként alakult ki a korábban bemutatott végleges jutalomfüggvény.
+	
+	\begin{figure}[H]
+		\centering
+		
+		\begin{tikzpicture}[
+			node distance=1.15cm,
+			box/.style={
+				draw,
+				rounded corners,
+				align=center,
+				minimum width=9.5cm,
+				minimum height=1.05cm,
+				text width=8.8cm,
+				font=\small
+			},
+			arrow/.style={
+				-{Latex[length=3mm]},
+				thick
+			}
+			]
+			
+			\node[box] (v1) {
+				\textbf{Kezdeti változat}\\
+				Egyensúlyozás és sebességkövetés
+			};
+			
+			\node[box, below=of v1] (drift) {
+				\textbf{Tapasztalt probléma}\\
+				A robot pozíciója hosszabb működés során fokozatosan elsodródott
+			};
+			
+			\node[box, below=of drift] (position) {
+				\textbf{Pozíció visszacsatolásának beépítése}\\
+				$s$ és $s_{\mathrm{ref}}$ bekerült a megfigyelési térbe és a jutalomfüggvénybe
+			};
+			
+			\node[box, below=of position] (referror) {
+				\textbf{Referenciajel-kezelési hiba felismerése}\\
+				Az observation és a jutalomfüggvény nem minden esetben ugyanazt a referenciajelet használta
+			};
+			
+			\node[box, below=of referror] (refsolve) {
+				\textbf{Referenciajelek egységesítése}\\
+				Közös $v_{\mathrm{cmd}}$ jel az observation, a reward és az $s_{\mathrm{ref}}$ előállításához
+			};
+			
+			\node[box, below=of refsolve] (v4) {
+				\textbf{Végleges SAC V4}\\
+				Pozíció-, sebesség- és egyensúlyozási szempontokat együttesen kezelő változat
+			};
+			
+			\draw[arrow] (v1) -- (drift);
+			\draw[arrow] (drift) -- (position);
+			\draw[arrow] (position) -- (referror);
+			\draw[arrow] (referror) -- (refsolve);
+			\draw[arrow] (refsolve) -- (v4);
+			
+		\end{tikzpicture}
+		
+		\caption{A megerősítéses tanulási környezet fejlesztésének főbb lépései.}
+		\label{fig:sac_fejlesztesi_lepesek}
+	\end{figure}
+	\subsection{A végleges ágens kiválasztása}
+	A tanítási környezet és a jutalomfüggvény módosításai után alakult ki a végleges, V4 jelölésű változat. Ebben már a pozíció- és sebességkövetés, az egyensúlyozás, valamint a beavatkozó nyomaték büntetése is szerepelt, és a referenciajelek kezelése is egységesen történt.
+	\newline
+	\newline
+	A végleges ágenst összesen 700 tanítási epizódig tanítottam. A tanítás eredményét
+	
+	\begin{center}
+		\texttt{RL\_SAC\_V4\_positionW1\_700ep.mat}
+	\end{center}
+	
+	fájlban mentettem el.
+	
+	Ezt a változatot választottam ki a további vizsgálatokhoz, és ezt használtam később a klasszikus szabályozóval történő összehasonlítás során is.
+	\newline
+	\newline
+	A tanítás befejezése után a kiválasztott ágenst már nem tanítottam tovább, hanem külön validációs futásokon vizsgáltam. Ennek célja az volt, hogy a végleges szabályozót olyan rögzített teszteseteken értékeljem, amelyek közvetlenül összehasonlíthatók a klasszikus szabályozó eredményeivel.
+	\newline
+	\newline
+	A részletes validációs és összehasonlító eredményeket a dolgozat későbbi fejezete tartalmazza.	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{figures/sac_v4_training_progress.png}
+		\caption{A végleges SAC ágens 700 epizódos tanításának folyamata.}
+		\label{fig:sac_v4_training_progress}
+	\end{figure}
+	
+	\section{Az összehasonlító vizsgálat kialakítása}
+	
+	\subsection{Azonos vizsgálati feltételek}
+	
+	\subsection{Vizsgálati esetek és mérőszámok}
+	
+	\subsection{Számítási igény vizsgálata}
+
+
+\clearpage
+\printbibliography[
+heading=bibintoc,
+title={Irodalomjegyzék}
+]
 
 \end{document}

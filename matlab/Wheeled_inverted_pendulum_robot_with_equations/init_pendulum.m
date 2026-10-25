@@ -74,7 +74,7 @@ yawManual = deg2rad(30);
 %%RL válozók inicializálása
 
 vTrainCmd = 0;
-trainingMode = 1;
+trainingMode = 0;
 
 %% Paramétervektor a nonlinearDynamics függvénynek
 

@@ -1,0 +1,664 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{chan2013}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=2c03fce43bc383d4996cab722f34450c}{%
+           family={Chan},
+           familyi={C\bibinitperiod},
+           given={Ronald\bibnamedelimb Ping\bibnamedelima Man},
+           giveni={R\bibinitperiod\bibinitdelim P\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=7c3ef6de8ccddba0bf85d04a688ae4ac}{%
+           family={Stol},
+           familyi={S\bibinitperiod},
+           given={Karl\bibnamedelima A.},
+           giveni={K\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=62c5db57ab1505e10a48e9aa443b8660}{%
+           family={Halkyard},
+           familyi={H\bibinitperiod},
+           given={C.\bibnamedelimi Roger},
+           giveni={C\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+      }
+      \strng{namehash}{c6633ff134736e4a42950ed75524dd0d}
+      \strng{fullhash}{c6633ff134736e4a42950ed75524dd0d}
+      \strng{fullhashraw}{c6633ff134736e4a42950ed75524dd0d}
+      \strng{bibnamehash}{c6633ff134736e4a42950ed75524dd0d}
+      \strng{authorbibnamehash}{c6633ff134736e4a42950ed75524dd0d}
+      \strng{authornamehash}{c6633ff134736e4a42950ed75524dd0d}
+      \strng{authorfullhash}{c6633ff134736e4a42950ed75524dd0d}
+      \strng{authorfullhashraw}{c6633ff134736e4a42950ed75524dd0d}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Annual Reviews in Control}
+      \field{number}{1}
+      \field{title}{Review of modelling and control of two-wheeled robots}
+      \field{volume}{37}
+      \field{year}{2013}
+      \field{pages}{89\bibrangedash 103}
+      \range{pages}{15}
+      \verb{doi}
+      \verb 10.1016/j.arcontrol.2013.03.004
+      \endverb
+    \endentry
+    \entry{kimkwon2015}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=e169ed82ee74f558d028048d433b8d51}{%
+           family={Kim},
+           familyi={K\bibinitperiod},
+           given={Sangtae},
+           giveni={S\bibinitperiod}}}%
+        {{hash=e5d7b79c97ee6dc3b6416aae6c0d200d}{%
+           family={Kwon},
+           familyi={K\bibinitperiod},
+           given={SangJoo},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{ae6613fe763a88978ebd8731ee8585e3}
+      \strng{fullhash}{ae6613fe763a88978ebd8731ee8585e3}
+      \strng{fullhashraw}{ae6613fe763a88978ebd8731ee8585e3}
+      \strng{bibnamehash}{ae6613fe763a88978ebd8731ee8585e3}
+      \strng{authorbibnamehash}{ae6613fe763a88978ebd8731ee8585e3}
+      \strng{authornamehash}{ae6613fe763a88978ebd8731ee8585e3}
+      \strng{authorfullhash}{ae6613fe763a88978ebd8731ee8585e3}
+      \strng{authorfullhashraw}{ae6613fe763a88978ebd8731ee8585e3}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{International Journal of Control, Automation, and Systems}
+      \field{number}{4}
+      \field{title}{Dynamic Modeling of a Two-wheeled Inverted Pendulum Balancing Mobile Robot}
+      \field{volume}{13}
+      \field{year}{2015}
+      \verb{doi}
+      \verb 10.1007/s12555-014-0564-8
+      \endverb
+    \endentry
+    \entry{zhangnor2025}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=a0239023db6b79402888ae8822a8ce43}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Huaqiang},
+           giveni={H\bibinitperiod}}}%
+        {{hash=b3b67e86fecdc93c6332ff10ca882006}{%
+           family={Mohamad\bibnamedelima Nor},
+           familyi={M\bibinitperiod\bibinitdelim N\bibinitperiod},
+           given={Norzalilah},
+           giveni={N\bibinitperiod}}}%
+      }
+      \strng{namehash}{e828ad0e8d48e86520cac67f7617ec6d}
+      \strng{fullhash}{e828ad0e8d48e86520cac67f7617ec6d}
+      \strng{fullhashraw}{e828ad0e8d48e86520cac67f7617ec6d}
+      \strng{bibnamehash}{e828ad0e8d48e86520cac67f7617ec6d}
+      \strng{authorbibnamehash}{e828ad0e8d48e86520cac67f7617ec6d}
+      \strng{authornamehash}{e828ad0e8d48e86520cac67f7617ec6d}
+      \strng{authorfullhash}{e828ad0e8d48e86520cac67f7617ec6d}
+      \strng{authorfullhashraw}{e828ad0e8d48e86520cac67f7617ec6d}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Robotics}
+      \field{number}{8}
+      \field{title}{Control Strategies for Two-Wheeled Self-Balancing Robotic Systems: A Comprehensive Review}
+      \field{volume}{14}
+      \field{year}{2025}
+      \field{pages}{101}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.3390/robotics14080101
+      \endverb
+    \endentry
+    \entry{anli2013}{inproceedings}{}{}
+      \name{author}{2}{}{%
+        {{hash=adfff3b9d9e0ddb59be6db943f558b9c}{%
+           family={An},
+           familyi={A\bibinitperiod},
+           given={Wei},
+           giveni={W\bibinitperiod}}}%
+        {{hash=d8bcccf774a482546cc83ee7ee46fd8e}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Yangmin},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \strng{namehash}{e457036bc7243bd1d1e716aabd032807}
+      \strng{fullhash}{e457036bc7243bd1d1e716aabd032807}
+      \strng{fullhashraw}{e457036bc7243bd1d1e716aabd032807}
+      \strng{bibnamehash}{e457036bc7243bd1d1e716aabd032807}
+      \strng{authorbibnamehash}{e457036bc7243bd1d1e716aabd032807}
+      \strng{authornamehash}{e457036bc7243bd1d1e716aabd032807}
+      \strng{authorfullhash}{e457036bc7243bd1d1e716aabd032807}
+      \strng{authorfullhashraw}{e457036bc7243bd1d1e716aabd032807}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2013 IEEE International Conference on Robotics and Biomimetics (ROBIO)}
+      \field{title}{Simulation and control of a two-wheeled self-balancing robot}
+      \field{year}{2013}
+      \field{pages}{456\bibrangedash 461}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1109/ROBIO.2013.6739501
+      \endverb
+    \endentry
+    \entry{yuan2016}{inproceedings}{}{}
+      \name{author}{3}{}{%
+        {{hash=6461dd114b47ad7a86d7d9d9794d1089}{%
+           family={Yuan},
+           familyi={Y\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+        {{hash=5997290618010e3f32ab3d3c869a4c4b}{%
+           family={Lei},
+           familyi={L\bibinitperiod},
+           given={G.},
+           giveni={G\bibinitperiod}}}%
+        {{hash=6ac1a9c7ff803089945d692cddfb230b}{%
+           family={Bin},
+           familyi={B\bibinitperiod},
+           given={X.},
+           giveni={X\bibinitperiod}}}%
+      }
+      \strng{namehash}{d537277c880ea2933ecf254a6c26acdf}
+      \strng{fullhash}{d537277c880ea2933ecf254a6c26acdf}
+      \strng{fullhashraw}{d537277c880ea2933ecf254a6c26acdf}
+      \strng{bibnamehash}{d537277c880ea2933ecf254a6c26acdf}
+      \strng{authorbibnamehash}{d537277c880ea2933ecf254a6c26acdf}
+      \strng{authornamehash}{d537277c880ea2933ecf254a6c26acdf}
+      \strng{authorfullhash}{d537277c880ea2933ecf254a6c26acdf}
+      \strng{authorfullhashraw}{d537277c880ea2933ecf254a6c26acdf}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2016 IEEE International Conference on Mechatronics and Automation}
+      \field{title}{Dynamic modeling and sliding mode controller design of a two-wheeled self-balancing robot}
+      \field{year}{2016}
+      \field{pages}{2437\bibrangedash 2442}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1109/ICMA.2016.7558948
+      \endverb
+    \endentry
+    \entry{ang2005}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=b850243b8152a14b7dea716fae2e0d2d}{%
+           family={Ang},
+           familyi={A\bibinitperiod},
+           given={Kiam\bibnamedelima Heong},
+           giveni={K\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=b0fdbca9bc25aa6289066cf9d23803c1}{%
+           family={Chong},
+           familyi={C\bibinitperiod},
+           given={Gregory},
+           giveni={G\bibinitperiod}}}%
+        {{hash=28aa5e4b66ee78162017f27b0b9d360b}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Yun},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \strng{namehash}{7d043a1b331629b6b863bf072b53c020}
+      \strng{fullhash}{7d043a1b331629b6b863bf072b53c020}
+      \strng{fullhashraw}{7d043a1b331629b6b863bf072b53c020}
+      \strng{bibnamehash}{7d043a1b331629b6b863bf072b53c020}
+      \strng{authorbibnamehash}{7d043a1b331629b6b863bf072b53c020}
+      \strng{authornamehash}{7d043a1b331629b6b863bf072b53c020}
+      \strng{authorfullhash}{7d043a1b331629b6b863bf072b53c020}
+      \strng{authorfullhashraw}{7d043a1b331629b6b863bf072b53c020}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Transactions on Control Systems Technology}
+      \field{number}{4}
+      \field{title}{PID Control System Analysis, Design, and Technology}
+      \field{volume}{13}
+      \field{year}{2005}
+      \field{pages}{559\bibrangedash 576}
+      \range{pages}{18}
+      \verb{doi}
+      \verb 10.1109/TCST.2005.847331
+      \endverb
+    \endentry
+    \entry{nguyen2017}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=86e87d1e2d5e61f247e82fb12a02a965}{%
+           family={Nguyen},
+           familyi={N\bibinitperiod},
+           given={To\bibnamedelima Duc},
+           giveni={T\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+      }
+      \strng{namehash}{86e87d1e2d5e61f247e82fb12a02a965}
+      \strng{fullhash}{86e87d1e2d5e61f247e82fb12a02a965}
+      \strng{fullhashraw}{86e87d1e2d5e61f247e82fb12a02a965}
+      \strng{bibnamehash}{86e87d1e2d5e61f247e82fb12a02a965}
+      \strng{authorbibnamehash}{86e87d1e2d5e61f247e82fb12a02a965}
+      \strng{authornamehash}{86e87d1e2d5e61f247e82fb12a02a965}
+      \strng{authorfullhash}{86e87d1e2d5e61f247e82fb12a02a965}
+      \strng{authorfullhashraw}{86e87d1e2d5e61f247e82fb12a02a965}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{VNUHCM Journal of Science and Technology Development}
+      \field{number}{K3}
+      \field{title}{Controlling Two-Wheeled Self-Balancing Robot Moving on Inclined Plane}
+      \field{volume}{20}
+      \field{year}{2017}
+      \field{pages}{45\bibrangedash 52}
+      \range{pages}{8}
+      \verb{doi}
+      \verb 10.32508/stdj.v20iK3.1091
+      \endverb
+    \endentry
+    \entry{somefun2021}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=588f0e1b3b3bb29b3d3f9f0429888be7}{%
+           family={Somefun},
+           familyi={S\bibinitperiod},
+           given={Oluwasegun\bibnamedelima Ayokunle},
+           giveni={O\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=c38112767e837e9864cd5a6a0800f4d8}{%
+           family={Akingbade},
+           familyi={A\bibinitperiod},
+           given={Kayode},
+           giveni={K\bibinitperiod}}}%
+        {{hash=e7d9f2d093dab0c2deeea5079316fb93}{%
+           family={Dahunsi},
+           familyi={D\bibinitperiod},
+           given={Folasade},
+           giveni={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{72734f2c46ff182b18709effd31d5213}
+      \strng{fullhash}{72734f2c46ff182b18709effd31d5213}
+      \strng{fullhashraw}{72734f2c46ff182b18709effd31d5213}
+      \strng{bibnamehash}{72734f2c46ff182b18709effd31d5213}
+      \strng{authorbibnamehash}{72734f2c46ff182b18709effd31d5213}
+      \strng{authornamehash}{72734f2c46ff182b18709effd31d5213}
+      \strng{authorfullhash}{72734f2c46ff182b18709effd31d5213}
+      \strng{authorfullhashraw}{72734f2c46ff182b18709effd31d5213}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Annual Reviews in Control}
+      \field{title}{The Dilemma of PID Tuning}
+      \field{volume}{52}
+      \field{year}{2021}
+      \field{pages}{65\bibrangedash 74}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1016/j.arcontrol.2021.05.002
+      \endverb
+    \endentry
+    \entry{suttonbarto2018}{book}{}{}
+      \name{author}{2}{}{%
+        {{hash=eb920e5277d3d5fd0903f3cd41e11871}{%
+           family={Sutton},
+           familyi={S\bibinitperiod},
+           given={Richard\bibnamedelima S.},
+           giveni={R\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=32a0a208f8bcf56a13b0a8e618aa806a}{%
+           family={Barto},
+           familyi={B\bibinitperiod},
+           given={Andrew\bibnamedelima G.},
+           giveni={A\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {MIT Press}%
+      }
+      \strng{namehash}{c6212f1a1407d96a3d9f4fefbb07eade}
+      \strng{fullhash}{c6212f1a1407d96a3d9f4fefbb07eade}
+      \strng{fullhashraw}{c6212f1a1407d96a3d9f4fefbb07eade}
+      \strng{bibnamehash}{c6212f1a1407d96a3d9f4fefbb07eade}
+      \strng{authorbibnamehash}{c6212f1a1407d96a3d9f4fefbb07eade}
+      \strng{authornamehash}{c6212f1a1407d96a3d9f4fefbb07eade}
+      \strng{authorfullhash}{c6212f1a1407d96a3d9f4fefbb07eade}
+      \strng{authorfullhashraw}{c6212f1a1407d96a3d9f4fefbb07eade}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{2}
+      \field{title}{Reinforcement Learning: An Introduction}
+      \field{year}{2018}
+    \endentry
+    \entry{kober2013}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=c1af96639c1bc5af057c028f303f6322}{%
+           family={Kober},
+           familyi={K\bibinitperiod},
+           given={Jens},
+           giveni={J\bibinitperiod}}}%
+        {{hash=49832523c57a7bf40445f071b2ad2c0a}{%
+           family={Bagnell},
+           familyi={B\bibinitperiod},
+           given={J.\bibnamedelimi Andrew},
+           giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=c2cb77a864f65a21da0f69121b89835b}{%
+           family={Peters},
+           familyi={P\bibinitperiod},
+           given={Jan},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{a13aa86c55be0123b9f5c8c71181c83f}
+      \strng{fullhash}{a13aa86c55be0123b9f5c8c71181c83f}
+      \strng{fullhashraw}{a13aa86c55be0123b9f5c8c71181c83f}
+      \strng{bibnamehash}{a13aa86c55be0123b9f5c8c71181c83f}
+      \strng{authorbibnamehash}{a13aa86c55be0123b9f5c8c71181c83f}
+      \strng{authornamehash}{a13aa86c55be0123b9f5c8c71181c83f}
+      \strng{authorfullhash}{a13aa86c55be0123b9f5c8c71181c83f}
+      \strng{authorfullhashraw}{a13aa86c55be0123b9f5c8c71181c83f}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The International Journal of Robotics Research}
+      \field{number}{11}
+      \field{title}{Reinforcement Learning in Robotics: A Survey}
+      \field{volume}{32}
+      \field{year}{2013}
+      \field{pages}{1238\bibrangedash 1274}
+      \range{pages}{37}
+      \verb{doi}
+      \verb 10.1177/0278364913495721
+      \endverb
+    \endentry
+    \entry{lillicrap2015}{article}{}{}
+      \name{author}{8}{}{%
+        {{hash=2a321a868e44d49baf52b5e2d816fb71}{%
+           family={Lillicrap},
+           familyi={L\bibinitperiod},
+           given={Timothy\bibnamedelima P.},
+           giveni={T\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=e0c5cec59a932511b2af6220473fad61}{%
+           family={Hunt},
+           familyi={H\bibinitperiod},
+           given={Jonathan\bibnamedelima J.},
+           giveni={J\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=4295e4094c426f01903ac60155866130}{%
+           family={Pritzel},
+           familyi={P\bibinitperiod},
+           given={Alexander},
+           giveni={A\bibinitperiod}}}%
+        {{hash=231312991eab5915498d6c19c2a8cd4e}{%
+           family={Heess},
+           familyi={H\bibinitperiod},
+           given={Nicolas},
+           giveni={N\bibinitperiod}}}%
+        {{hash=3b79ca47f08451987877fd8682e971e5}{%
+           family={Erez},
+           familyi={E\bibinitperiod},
+           given={Tom},
+           giveni={T\bibinitperiod}}}%
+        {{hash=58112cb88a80c1bc045b6eaab26a8695}{%
+           family={Tassa},
+           familyi={T\bibinitperiod},
+           given={Yuval},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=89dbd30410c2085cd059f32c57d4593e}{%
+           family={Silver},
+           familyi={S\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
+        {{hash=d7805381550fb5f8360345f7f72c0b49}{%
+           family={Wierstra},
+           familyi={W\bibinitperiod},
+           given={Daan},
+           giveni={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{e9929f8db9dd2c08064f17b4d9a7c551}
+      \strng{fullhash}{9f2f0357b439f9ae4a3953d81392aaa0}
+      \strng{fullhashraw}{9f2f0357b439f9ae4a3953d81392aaa0}
+      \strng{bibnamehash}{e9929f8db9dd2c08064f17b4d9a7c551}
+      \strng{authorbibnamehash}{e9929f8db9dd2c08064f17b4d9a7c551}
+      \strng{authornamehash}{e9929f8db9dd2c08064f17b4d9a7c551}
+      \strng{authorfullhash}{9f2f0357b439f9ae4a3953d81392aaa0}
+      \strng{authorfullhashraw}{9f2f0357b439f9ae4a3953d81392aaa0}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:1509.02971}
+      \field{title}{Continuous Control with Deep Reinforcement Learning}
+      \field{year}{2015}
+    \endentry
+    \entry{haarnoja2018sac}{inproceedings}{}{}
+      \name{author}{4}{}{%
+        {{hash=45b14f55dd7ae28cb6cb2e23e4a168b9}{%
+           family={Haarnoja},
+           familyi={H\bibinitperiod},
+           given={Tuomas},
+           giveni={T\bibinitperiod}}}%
+        {{hash=519033a7338e5ef684c77d4d04748a4a}{%
+           family={Zhou},
+           familyi={Z\bibinitperiod},
+           given={Aurick},
+           giveni={A\bibinitperiod}}}%
+        {{hash=e28d4ee199593959d8c29980a64f1974}{%
+           family={Abbeel},
+           familyi={A\bibinitperiod},
+           given={Pieter},
+           giveni={P\bibinitperiod}}}%
+        {{hash=c9545da54b33744da25943cdf66eadac}{%
+           family={Levine},
+           familyi={L\bibinitperiod},
+           given={Sergey},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {PMLR}%
+      }
+      \strng{namehash}{b8c131de85c5000ff50df59a4d062227}
+      \strng{fullhash}{951e86110020d3107317b3e819f3d92d}
+      \strng{fullhashraw}{951e86110020d3107317b3e819f3d92d}
+      \strng{bibnamehash}{b8c131de85c5000ff50df59a4d062227}
+      \strng{authorbibnamehash}{b8c131de85c5000ff50df59a4d062227}
+      \strng{authornamehash}{b8c131de85c5000ff50df59a4d062227}
+      \strng{authorfullhash}{951e86110020d3107317b3e819f3d92d}
+      \strng{authorfullhashraw}{951e86110020d3107317b3e819f3d92d}
+      \field{extraname}{1}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 35th International Conference on Machine Learning}
+      \field{series}{Proceedings of Machine Learning Research}
+      \field{title}{Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor}
+      \field{volume}{80}
+      \field{year}{2018}
+      \field{pages}{1861\bibrangedash 1870}
+      \range{pages}{10}
+    \endentry
+    \entry{haarnoja2018applications}{article}{}{}
+      \name{author}{11}{}{%
+        {{hash=45b14f55dd7ae28cb6cb2e23e4a168b9}{%
+           family={Haarnoja},
+           familyi={H\bibinitperiod},
+           given={Tuomas},
+           giveni={T\bibinitperiod}}}%
+        {{hash=519033a7338e5ef684c77d4d04748a4a}{%
+           family={Zhou},
+           familyi={Z\bibinitperiod},
+           given={Aurick},
+           giveni={A\bibinitperiod}}}%
+        {{hash=2bf28b92c31c717feee2c15487657b25}{%
+           family={Hartikainen},
+           familyi={H\bibinitperiod},
+           given={Kristian},
+           giveni={K\bibinitperiod}}}%
+        {{hash=641a3f5d5ce834c4b56fb672c5df0207}{%
+           family={Tucker},
+           familyi={T\bibinitperiod},
+           given={George},
+           giveni={G\bibinitperiod}}}%
+        {{hash=d235634814ed266793a4de24b71955e6}{%
+           family={Ha},
+           familyi={H\bibinitperiod},
+           given={Sehoon},
+           giveni={S\bibinitperiod}}}%
+        {{hash=aaa7cb90b2e1cc2079b5e8a087a903c9}{%
+           family={Tan},
+           familyi={T\bibinitperiod},
+           given={Jie},
+           giveni={J\bibinitperiod}}}%
+        {{hash=bbba0ccb50436105a4134d24509b62d7}{%
+           family={Kumar},
+           familyi={K\bibinitperiod},
+           given={Vikash},
+           giveni={V\bibinitperiod}}}%
+        {{hash=fde29d8aa12ec2aa9ab89c495df350fb}{%
+           family={Zhu},
+           familyi={Z\bibinitperiod},
+           given={Henry},
+           giveni={H\bibinitperiod}}}%
+        {{hash=d0792eb04b685020eafedbc871aeb84f}{%
+           family={Gupta},
+           familyi={G\bibinitperiod},
+           given={Abhishek},
+           giveni={A\bibinitperiod}}}%
+        {{hash=e28d4ee199593959d8c29980a64f1974}{%
+           family={Abbeel},
+           familyi={A\bibinitperiod},
+           given={Pieter},
+           giveni={P\bibinitperiod}}}%
+        {{hash=c9545da54b33744da25943cdf66eadac}{%
+           family={Levine},
+           familyi={L\bibinitperiod},
+           given={Sergey},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{b8c131de85c5000ff50df59a4d062227}
+      \strng{fullhash}{c6ac1e78375b5b1cb1c472544f2557df}
+      \strng{fullhashraw}{c6ac1e78375b5b1cb1c472544f2557df}
+      \strng{bibnamehash}{b8c131de85c5000ff50df59a4d062227}
+      \strng{authorbibnamehash}{b8c131de85c5000ff50df59a4d062227}
+      \strng{authornamehash}{b8c131de85c5000ff50df59a4d062227}
+      \strng{authorfullhash}{c6ac1e78375b5b1cb1c472544f2557df}
+      \strng{authorfullhashraw}{c6ac1e78375b5b1cb1c472544f2557df}
+      \field{extraname}{2}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:1812.05905}
+      \field{title}{Soft Actor-Critic Algorithms and Applications}
+      \field{year}{2018}
+    \endentry
+    \entry{busoniu2018}{article}{}{}
+      \name{author}{5}{}{%
+        {{hash=3519c8ebd64718a7f67dfc98c175a743}{%
+           family={Buşoniu},
+           familyi={B\bibinitperiod},
+           given={Lucian},
+           giveni={L\bibinitperiod}}}%
+        {{hash=b330fa9decb8fdda86126422847a6375}{%
+           family={Bruin},
+           familyi={B\bibinitperiod},
+           given={Tim},
+           giveni={T\bibinitperiod},
+           prefix={de},
+           prefixi={d\bibinitperiod}}}%
+        {{hash=04590d62f39915346395ba8b50c7d009}{%
+           family={Tolić},
+           familyi={T\bibinitperiod},
+           given={Domagoj},
+           giveni={D\bibinitperiod}}}%
+        {{hash=c1af96639c1bc5af057c028f303f6322}{%
+           family={Kober},
+           familyi={K\bibinitperiod},
+           given={Jens},
+           giveni={J\bibinitperiod}}}%
+        {{hash=ec40131a4eb1d4ae44c90d080abbbd4f}{%
+           family={Palunko},
+           familyi={P\bibinitperiod},
+           given={Ivana},
+           giveni={I\bibinitperiod}}}%
+      }
+      \strng{namehash}{776d333b32c1e0fabbb1991a043dbff9}
+      \strng{fullhash}{d15f819c91bd551d2c9d648edec6dae1}
+      \strng{fullhashraw}{d15f819c91bd551d2c9d648edec6dae1}
+      \strng{bibnamehash}{776d333b32c1e0fabbb1991a043dbff9}
+      \strng{authorbibnamehash}{776d333b32c1e0fabbb1991a043dbff9}
+      \strng{authornamehash}{776d333b32c1e0fabbb1991a043dbff9}
+      \strng{authorfullhash}{d15f819c91bd551d2c9d648edec6dae1}
+      \strng{authorfullhashraw}{d15f819c91bd551d2c9d648edec6dae1}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Annual Reviews in Control}
+      \field{title}{Reinforcement Learning for Control: Performance, Stability, and Deep Approximators}
+      \field{volume}{46}
+      \field{year}{2018}
+      \field{pages}{8\bibrangedash 28}
+      \range{pages}{21}
+      \verb{doi}
+      \verb 10.1016/j.arcontrol.2018.09.005
+      \endverb
+    \endentry
+    \entry{hernandez2024}{inproceedings}{}{}
+      \name{author}{3}{}{%
+        {{hash=e2df8101836447378939756028277371}{%
+           family={Hernández},
+           familyi={H\bibinitperiod},
+           given={Rubén},
+           giveni={R\bibinitperiod}}}%
+        {{hash=b587be31f5ff68a37112ac921b8749a5}{%
+           family={Garcia-Hernandez},
+           familyi={G\bibinithyphendelim H\bibinitperiod},
+           given={Ramon},
+           giveni={R\bibinitperiod}}}%
+        {{hash=2ccaf4bce748f1200c906d643c06bfc6}{%
+           family={Jurado},
+           familyi={J\bibinitperiod},
+           given={Francisco},
+           giveni={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{cd244ab73151ef0350dfb20c58c86b01}
+      \strng{fullhash}{cd244ab73151ef0350dfb20c58c86b01}
+      \strng{fullhashraw}{cd244ab73151ef0350dfb20c58c86b01}
+      \strng{bibnamehash}{cd244ab73151ef0350dfb20c58c86b01}
+      \strng{authorbibnamehash}{cd244ab73151ef0350dfb20c58c86b01}
+      \strng{authornamehash}{cd244ab73151ef0350dfb20c58c86b01}
+      \strng{authorfullhash}{cd244ab73151ef0350dfb20c58c86b01}
+      \strng{authorfullhashraw}{cd244ab73151ef0350dfb20c58c86b01}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2024 XXVI Robotics Mexican Congress (COMRob)}
+      \field{title}{Stabilization of a Two-Wheeled Self-Balancing Robot Using Reinforcement Learning}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.1109/COMRob64055.2024.10777426
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

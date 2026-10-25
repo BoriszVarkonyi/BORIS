@@ -1,0 +1,14 @@
+[0] Config.pm:328> INFO - This is Biber 2.21
+[0] Config.pm:331> INFO - Logfile is 'VB_TDK_2026.blg'
+[30] biber:342> INFO - === Sun Oct 25, 2026, 15:52:30
+[36] Biber.pm:421> INFO - Reading 'VB_TDK_2026.bcf'
+[65] Biber.pm:1002> INFO - Found 15 citekeys in bib section 0
+[72] Biber.pm:4487> INFO - Processing section 0
+[76] Biber.pm:4678> INFO - Looking for bibtex file 'references.bib' for section 0
+[76] bibtex.pm:1713> INFO - LaTeX decoding ...
+[81] bibtex.pm:1519> INFO - Found BibTeX data source 'references.bib'
+[143] UCollate.pm:68> INFO - Overriding locale 'hu-HU' defaults 'variable = shifted' with 'variable = non-ignorable'
+[143] UCollate.pm:68> INFO - Overriding locale 'hu-HU' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[143] Biber.pm:4307> INFO - Sorting list 'none/global//global/global/global' of type 'entry' with template 'none' and locale 'hu-HU'
+[146] bbl.pm:676> INFO - Writing 'VB_TDK_2026.bbl' with encoding 'UTF-8'
+[149] bbl.pm:779> INFO - Output to VB_TDK_2026.bbl
